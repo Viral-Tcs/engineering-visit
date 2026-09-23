@@ -795,6 +795,22 @@ body{
 .tl-node .tl-num{ font-size:8px; letter-spacing:.08em; color:var(--muted); }
 .tl-node .ic{ width:18px; height:18px; }
 
+.tl-title{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    width:130px;
+    text-align:center;
+    font-size:9px;
+    font-weight:700;
+    letter-spacing:.02em;
+    line-height:1.2;
+    color:var(--acc);
+    white-space:nowrap;
+}
+.tl-step.up .tl-title{ top:calc(100% + 7px); }
+.tl-step.down .tl-title{ bottom:calc(100% + 7px); }
+
 @media(max-width:1200px){
  .tl-lines{ display:none; }
 }
@@ -1211,7 +1227,7 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
 </div>
 
 <!-- ===================== SDLC TIMELINE (v2 - linear connected flow) ===================== -->
-<div class="wf-section-title">AI Across the SDLC Lifecycle &mdash; Delivery Flow</div>
+<div class="wf-section-title">AI Assisted SDLC</div>
 <p class="wf-section-sub">The same lifecycle as a linear, connected pipeline &mdash; each stage summarised at a glance</p>
 
 <div class="tl" id="tlStage">
@@ -1230,7 +1246,7 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
                 <div class="tl-kpis"><span>Faster grooming</span><span>Sprint-ready stories</span></div>
                 <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Product Owner reviews stories &amp; docs</div>
             </div>
-            <div class="tl-node"><span class="tl-num">01</span><svg class="ic"><use href="#ic-clipboard"/></svg></div>
+            <div class="tl-node"><svg class="ic"><use href="#ic-clipboard"/></svg><span class="tl-num">01</span><span class="tl-title">Plan &amp; Design</span></div>
         </div>
 
         <div class="tl-step down s-orange">
@@ -1246,7 +1262,7 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
                 <div class="tl-kpis"><span>Faster development</span><span>Tests auto-generated</span><span>Standards-aligned</span></div>
                 <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Developers &amp; engineers review the code &amp; logic</div>
             </div>
-            <div class="tl-node"><span class="tl-num">02</span><svg class="ic"><use href="#ic-code"/></svg></div>
+            <div class="tl-node"><svg class="ic"><use href="#ic-code"/></svg><span class="tl-num">02</span><span class="tl-title">Development</span></div>
         </div>
 
         <div class="tl-step up s-error">
@@ -1261,7 +1277,7 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
                 <div class="tl-kpis"><span>Early detection</span><span>Auto-fixed</span><span>Audit-ready</span></div>
                 <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Developers &amp; team lead sign off</div>
             </div>
-            <div class="tl-node"><span class="tl-num">03</span><svg class="ic"><use href="#ic-shield"/></svg></div>
+            <div class="tl-node"><svg class="ic"><use href="#ic-shield"/></svg><span class="tl-num">03</span><span class="tl-title">Security</span></div>
         </div>
 
         <div class="tl-step down s-cyan">
@@ -1276,7 +1292,7 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
                 <div class="tl-kpis"><span>Multi-pass review</span><span>Consistent standards</span></div>
                 <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Team lead reviews after the PR review agent</div>
             </div>
-            <div class="tl-node"><span class="tl-num">04</span><svg class="ic"><use href="#ic-message"/></svg></div>
+            <div class="tl-node"><svg class="ic"><use href="#ic-message"/></svg><span class="tl-num">04</span><span class="tl-title">Code Review</span></div>
         </div>
 
         <div class="tl-step up s-purple">
@@ -1291,7 +1307,7 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
                 <div class="tl-kpis"><span>Broader cover</span><span>Fewer escapes</span></div>
                 <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> QA runs exploratory testing</div>
             </div>
-            <div class="tl-node"><span class="tl-num">05</span><svg class="ic"><use href="#ic-flask"/></svg></div>
+            <div class="tl-node"><svg class="ic"><use href="#ic-flask"/></svg><span class="tl-num">05</span><span class="tl-title">Testing &amp; QA</span></div>
         </div>
 
     </div>
