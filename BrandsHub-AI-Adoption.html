@@ -647,6 +647,7 @@ body{
 .tl{
     position:relative;
     overflow-x:auto;
+    overflow-y:hidden;
     margin-top:24px;
     padding:4px 2px 14px;
 }
@@ -655,8 +656,9 @@ body{
     position:relative;
     display:grid;
     grid-auto-flow:column;
-    grid-auto-columns:minmax(245px,1fr);
-    min-width:1340px;
+    grid-auto-columns:minmax(185px,1fr);
+    min-width:1010px;
+    padding:0 60px;
 }
 
 .tl-lines{
@@ -672,12 +674,11 @@ body{
 .tl-step{
     position:relative;
     z-index:2;
-    display:grid;
-    grid-template-rows:1fr 60px 1fr;
+    display:flex;
     align-items:center;
-    justify-items:center;
-    min-height:470px;
-    padding:0 10px;
+    justify-content:center;
+    min-height:580px;
+    padding:0 6px;
     --acc:var(--brand-tint);
 }
 
@@ -688,23 +689,23 @@ body{
 .tl-step.s-error{ --acc:var(--error); }
 
 .tl-card{
-    grid-row:1;
-    align-self:end;
-    margin-bottom:44px;
-    width:100%;
-    max-width:300px;
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    width:324px;
     background:var(--card);
     border:1px solid var(--border);
     border-top:3px solid var(--acc);
     border-radius:10px;
-    padding:18px;
+    padding:13px;
     box-shadow:0 12px 26px rgba(0,0,0,.28);
     transition:transform .3s ease,box-shadow .3s ease;
 }
 
-.tl-step.down .tl-card{ grid-row:3; align-self:start; margin-top:44px; margin-bottom:0; }
+.tl-step.up .tl-card{ bottom:calc(50% + 52px); }
+.tl-step.down .tl-card{ top:calc(50% + 52px); }
 
-.tl-card:hover{ transform:translateY(-3px); box-shadow:0 18px 34px rgba(0,0,0,.4); }
+.tl-card:hover{ transform:translateX(-50%) translateY(-3px); box-shadow:0 18px 34px rgba(0,0,0,.4); }
 
 .tl-kicker{
     color:var(--acc);
@@ -714,19 +715,19 @@ body{
     font-weight:700;
 }
 
-.tl-card-head{ display:flex; align-items:center; gap:8px; margin-top:5px; }
+.tl-card-head{ display:flex; align-items:center; gap:8px; margin-top:3px; }
 .tl-ic{ color:var(--acc); display:flex; }
-.tl-ic .ic{ width:21px; height:21px; }
-.tl-card-head h3{ margin:0; font-size:15px; line-height:1.2; }
+.tl-ic .ic{ width:18px; height:18px; }
+.tl-card-head h3{ margin:0; font-size:13.5px; line-height:1.2; }
 
-.tl-agents{ display:flex; flex-wrap:wrap; gap:5px; margin-top:10px; }
+.tl-agents{ display:flex; flex-wrap:wrap; gap:5px; margin-top:7px; }
 .tl-agents span{
     display:inline-flex;
     align-items:center;
     gap:4px;
-    padding:4px 9px;
+    padding:3px 7px;
     border-radius:6px;
-    font-size:9.5px;
+    font-size:8.5px;
     font-weight:700;
     letter-spacing:.03em;
     color:#d5e5df;
@@ -742,18 +743,18 @@ body{
     flex:0 0 auto;
 }
 
-.tl-list{ margin:11px 0 0; padding-left:17px; font-size:12px; }
-.tl-list li{ margin-bottom:6px; color:#c6d3d9; line-height:1.35; }
+.tl-list{ margin:7px 0 0; padding-left:15px; font-size:10.5px; }
+.tl-list li{ margin-bottom:3px; color:#c6d3d9; line-height:1.25; }
 .tl-list li::marker{ color:var(--acc); }
 .tl-list strong{ color:var(--text); }
 
-.tl-kpis{ display:flex; flex-wrap:wrap; gap:5px; margin-top:12px; }
+.tl-kpis{ display:flex; flex-wrap:wrap; gap:4px; margin-top:8px; }
 .tl-kpis span{
-    padding:4px 9px;
+    padding:3px 6px;
     border-radius:999px;
-    font-size:9.5px;
+    font-size:8px;
     font-weight:700;
-    letter-spacing:.02em;
+    letter-spacing:.01em;
     color:var(--acc);
     border:1px solid currentColor;
     background:rgba(255,255,255,.03);
@@ -763,10 +764,10 @@ body{
     display:flex;
     align-items:center;
     gap:6px;
-    margin-top:13px;
-    padding:7px 10px;
+    margin-top:8px;
+    padding:5px 8px;
     border-radius:6px;
-    font-size:10.5px;
+    font-size:9.5px;
     color:#ffcf9d;
     background:rgba(234,109,18,.1);
     border:1px solid rgba(234,109,18,.3);
@@ -775,11 +776,10 @@ body{
 .tl-human .ic{ width:12px; height:12px; color:var(--warning); flex:0 0 auto; }
 
 .tl-node{
-    grid-row:2;
     position:relative;
     z-index:3;
-    width:62px;
-    height:62px;
+    width:52px;
+    height:52px;
     border-radius:50%;
     display:flex;
     flex-direction:column;
@@ -793,7 +793,7 @@ body{
 }
 
 .tl-node .tl-num{ font-size:8px; letter-spacing:.08em; color:var(--muted); }
-.tl-node .ic{ width:20px; height:20px; }
+.tl-node .ic{ width:18px; height:18px; }
 
 @media(max-width:1200px){
  .tl-lines{ display:none; }
@@ -1221,14 +1221,14 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
         <div class="tl-step up s-green">
             <div class="tl-card">
                 <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-clipboard"/></svg></span><h3>Planning &amp; Design</h3></div>
-                <div class="tl-agents"><span>Rovo</span><span>Copilot</span></div>
+                <div class="tl-agents"><span>Rovo Agent</span></div>
                 <ul class="tl-list">
                     <li><strong>Rovo</strong> drafts &amp; grooms Jira stories</li>
                     <li>Confluence docs auto-created &amp; synced</li>
-                    <li>Copilot shapes design &amp; acceptance criteria</li>
+                    <li>Clear acceptance criteria on every story</li>
                 </ul>
-                <div class="tl-kpis"><span>~50% prep</span><span>Docs in sync</span></div>
-                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> PO &amp; architects validate scope</div>
+                <div class="tl-kpis"><span>Faster grooming</span><span>Sprint-ready stories</span></div>
+                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Product Owner reviews stories &amp; docs</div>
             </div>
             <div class="tl-node"><span class="tl-num">01</span><svg class="ic"><use href="#ic-clipboard"/></svg></div>
         </div>
@@ -1236,15 +1236,15 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
         <div class="tl-step down s-orange">
             <div class="tl-card">
                 <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-code"/></svg></span><h3>Development &amp; Unit Testing</h3></div>
-                <div class="tl-agents"><span>API Generator</span><span>Copilot</span><span>Jest</span></div>
+                <div class="tl-agents"><span>API Generator Agent</span><span>GitHub Copilot</span><span>Jest Agent</span></div>
                 <ul class="tl-list">
                     <li><strong>API Generator</strong> builds full features</li>
                     <li>Spec-driven dev from <strong>SPEC.md</strong></li>
                     <li>Custom GHCP instructions enforce standards</li>
                     <li><strong>Jest</strong> &amp; JUnit unit tests generated</li>
                 </ul>
-                <div class="tl-kpis"><span>&ge;80% cov</span><span>0 stubs</span></div>
-                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Engineers own business logic</div>
+                <div class="tl-kpis"><span>Faster development</span><span>Tests auto-generated</span><span>Standards-aligned</span></div>
+                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Developers &amp; engineers review the code &amp; logic</div>
             </div>
             <div class="tl-node"><span class="tl-num">02</span><svg class="ic"><use href="#ic-code"/></svg></div>
         </div>
@@ -1252,14 +1252,14 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
         <div class="tl-step up s-error">
             <div class="tl-card">
                 <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-shield"/></svg></span><h3>Security &amp; Compliance</h3></div>
-                <div class="tl-agents"><span>ESLint Fixer</span><span>Sonar Fixer</span></div>
+                <div class="tl-agents"><span>ESLint Fixer Agent</span><span>Sonar Fixer Agent</span></div>
                 <ul class="tl-list">
                     <li><strong>ESLint</strong> auto-fixes on changed files</li>
                     <li><strong>Sonar</strong> maintainability issues fixed via agent</li>
                     <li>Insecure patterns caught early</li>
                 </ul>
-                <div class="tl-kpis"><span>Shift-left</span><span>Clean gate</span></div>
-                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Security engineers sign off</div>
+                <div class="tl-kpis"><span>Early detection</span><span>Auto-fixed</span><span>Audit-ready</span></div>
+                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Developers &amp; team lead sign off</div>
             </div>
             <div class="tl-node"><span class="tl-num">03</span><svg class="ic"><use href="#ic-shield"/></svg></div>
         </div>
@@ -1267,14 +1267,14 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
         <div class="tl-step down s-cyan">
             <div class="tl-card">
                 <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-message"/></svg></span><h3>Code Review &amp; Refactoring</h3></div>
-                <div class="tl-agents"><span>AI PR Review</span><span>Local Reviewer</span></div>
+                <div class="tl-agents"><span>Pipeline-embedded PR Review</span><span>Local Reviewer Agent</span></div>
                 <ul class="tl-list">
                     <li>Built-in <strong>AI PR review</strong> in GitHub</li>
                     <li><strong>Local Reviewer</strong> agent pre-commit</li>
                     <li>Guided, standards-safe refactors</li>
                 </ul>
-                <div class="tl-kpis"><span>Multi-pass</span><span>Faster PRs</span></div>
-                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Seniors approve the merge</div>
+                <div class="tl-kpis"><span>Multi-pass review</span><span>Consistent standards</span></div>
+                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Team lead reviews after the PR review agent</div>
             </div>
             <div class="tl-node"><span class="tl-num">04</span><svg class="ic"><use href="#ic-message"/></svg></div>
         </div>
@@ -1282,10 +1282,10 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
         <div class="tl-step up s-purple">
             <div class="tl-card">
                 <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-flask"/></svg></span><h3>Testing &amp; QA</h3></div>
-                <div class="tl-agents"><span>Jest</span><span>PT Generator</span></div>
+                <div class="tl-agents"><span>PT Generator Agent</span></div>
                 <ul class="tl-list">
-                    <li>Scenarios &amp; edge cases from AC</li>
-                    <li>Automated regression coverage</li>
+                    <li>Scenarios &amp; edge cases from acceptance criteria</li>
+                    <li>AI-assisted regression coverage</li>
                     <li><strong>PT scripts</strong> validate performance</li>
                 </ul>
                 <div class="tl-kpis"><span>Broader cover</span><span>Fewer escapes</span></div>
@@ -1530,7 +1530,7 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
     const stage = document.getElementById("tlStage");
     const track = stage.querySelector(".tl-track");
     const svg = document.getElementById("tlLines");
-    const palette = ["#2db236","#4aa3c2","#ea6d12","#8b6fd6","#2db236","#ea122a","#4aa3c2","#ea6d12"];
+    const accent = el => getComputedStyle(el).borderTopColor;
     const NS = "http://www.w3.org/2000/svg";
 
     function point(el, side){
@@ -1569,8 +1569,8 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
 
     function build(){
         while(svg.firstChild){ svg.removeChild(svg.firstChild); }
-        svg.setAttribute("width", track.scrollWidth);
-        svg.setAttribute("height", track.scrollHeight);
+        svg.setAttribute("width", track.clientWidth);
+        svg.setAttribute("height", track.clientHeight);
 
         const nodes = Array.prototype.slice.call(track.querySelectorAll(".tl-node"));
         const steps = Array.prototype.slice.call(track.querySelectorAll(".tl-step"));
@@ -1582,7 +1582,7 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
             const mid = (a.x + b.x) / 2;
             const d = "M " + a.x + " " + a.y + " C " + mid + " " + a.y + ", " + mid + " " + b.y + ", " + b.x + " " + b.y;
             drawLine(d, "#2fa07c", 2, null, ".5");
-            drawDot(d, palette[i + 1]);
+            drawDot(d, accent(nodes[i + 1]));
         }
 
         // elbow connector (orthogonal, right-angle turns) from each stage node to its card
@@ -1598,8 +1598,9 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
                       " L " + a.x + " " + gapY +
                       " L " + bx + " " + gapY +
                       " L " + bx + " " + b.y;
-            drawLine(d, palette[i], 2, null, ".85");
-            drawDot(d, palette[i]);
+            const col = accent(node);
+            drawLine(d, col, 2, null, ".85");
+            drawDot(d, col);
         });
     }
 
