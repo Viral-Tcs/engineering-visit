@@ -655,8 +655,8 @@ body{
     position:relative;
     display:grid;
     grid-auto-flow:column;
-    grid-auto-columns:minmax(190px,1fr);
-    min-width:1080px;
+    grid-auto-columns:minmax(245px,1fr);
+    min-width:1340px;
 }
 
 .tl-lines{
@@ -690,18 +690,19 @@ body{
 .tl-card{
     grid-row:1;
     align-self:end;
+    margin-bottom:44px;
     width:100%;
-    max-width:235px;
+    max-width:300px;
     background:var(--card);
     border:1px solid var(--border);
     border-top:3px solid var(--acc);
     border-radius:10px;
-    padding:13px;
+    padding:18px;
     box-shadow:0 12px 26px rgba(0,0,0,.28);
     transition:transform .3s ease,box-shadow .3s ease;
 }
 
-.tl-step.down .tl-card{ grid-row:3; align-self:start; }
+.tl-step.down .tl-card{ grid-row:3; align-self:start; margin-top:44px; margin-bottom:0; }
 
 .tl-card:hover{ transform:translateY(-3px); box-shadow:0 18px 34px rgba(0,0,0,.4); }
 
@@ -715,19 +716,42 @@ body{
 
 .tl-card-head{ display:flex; align-items:center; gap:8px; margin-top:5px; }
 .tl-ic{ color:var(--acc); display:flex; }
-.tl-ic .ic{ width:17px; height:17px; }
-.tl-card-head h3{ margin:0; font-size:13px; line-height:1.2; }
+.tl-ic .ic{ width:21px; height:21px; }
+.tl-card-head h3{ margin:0; font-size:15px; line-height:1.2; }
 
-.tl-list{ margin:9px 0 0; padding-left:15px; font-size:10.5px; }
-.tl-list li{ margin-bottom:4px; color:#c6d3d9; line-height:1.3; }
+.tl-agents{ display:flex; flex-wrap:wrap; gap:5px; margin-top:10px; }
+.tl-agents span{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    padding:4px 9px;
+    border-radius:6px;
+    font-size:9.5px;
+    font-weight:700;
+    letter-spacing:.03em;
+    color:#d5e5df;
+    background:rgba(255,255,255,.04);
+    border:1px solid var(--border);
+}
+.tl-agents span::before{
+    content:"";
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:var(--acc);
+    flex:0 0 auto;
+}
+
+.tl-list{ margin:11px 0 0; padding-left:17px; font-size:12px; }
+.tl-list li{ margin-bottom:6px; color:#c6d3d9; line-height:1.35; }
 .tl-list li::marker{ color:var(--acc); }
 .tl-list strong{ color:var(--text); }
 
-.tl-kpis{ display:flex; flex-wrap:wrap; gap:5px; margin-top:10px; }
+.tl-kpis{ display:flex; flex-wrap:wrap; gap:5px; margin-top:12px; }
 .tl-kpis span{
-    padding:3px 7px;
+    padding:4px 9px;
     border-radius:999px;
-    font-size:8.5px;
+    font-size:9.5px;
     font-weight:700;
     letter-spacing:.02em;
     color:var(--acc);
@@ -738,11 +762,11 @@ body{
 .tl-human{
     display:flex;
     align-items:center;
-    gap:5px;
-    margin-top:10px;
-    padding:5px 8px;
+    gap:6px;
+    margin-top:13px;
+    padding:7px 10px;
     border-radius:6px;
-    font-size:9.5px;
+    font-size:10.5px;
     color:#ffcf9d;
     background:rgba(234,109,18,.1);
     border:1px solid rgba(234,109,18,.3);
@@ -754,8 +778,8 @@ body{
     grid-row:2;
     position:relative;
     z-index:3;
-    width:56px;
-    height:56px;
+    width:62px;
+    height:62px;
     border-radius:50%;
     display:flex;
     flex-direction:column;
@@ -1196,8 +1220,8 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
 
         <div class="tl-step up s-green">
             <div class="tl-card">
-                <span class="tl-kicker">01 / Plan &amp; Design</span>
                 <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-clipboard"/></svg></span><h3>Planning &amp; Design</h3></div>
+                <div class="tl-agents"><span>Rovo</span><span>Copilot</span></div>
                 <ul class="tl-list">
                     <li><strong>Rovo</strong> drafts &amp; grooms Jira stories</li>
                     <li>Confluence docs auto-created &amp; synced</li>
@@ -1211,8 +1235,8 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
 
         <div class="tl-step down s-orange">
             <div class="tl-card">
-                <span class="tl-kicker">02 / Build</span>
                 <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-code"/></svg></span><h3>Development &amp; Unit Testing</h3></div>
+                <div class="tl-agents"><span>API Generator</span><span>Copilot</span><span>Jest</span></div>
                 <ul class="tl-list">
                     <li><strong>API Generator</strong> builds full features</li>
                     <li>Spec-driven dev from <strong>SPEC.md</strong></li>
@@ -1227,8 +1251,8 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
 
         <div class="tl-step up s-error">
             <div class="tl-card">
-                <span class="tl-kicker">03 / Security</span>
                 <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-shield"/></svg></span><h3>Security &amp; Compliance</h3></div>
+                <div class="tl-agents"><span>ESLint Fixer</span><span>Sonar Fixer</span></div>
                 <ul class="tl-list">
                     <li><strong>ESLint</strong> auto-fixes on changed files</li>
                     <li><strong>Sonar</strong> maintainability issues fixed via agent</li>
@@ -1242,8 +1266,8 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
 
         <div class="tl-step down s-cyan">
             <div class="tl-card">
-                <span class="tl-kicker">04 / Review</span>
                 <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-message"/></svg></span><h3>Code Review &amp; Refactoring</h3></div>
+                <div class="tl-agents"><span>AI PR Review</span><span>Local Reviewer</span></div>
                 <ul class="tl-list">
                     <li>Built-in <strong>AI PR review</strong> in GitHub</li>
                     <li><strong>Local Reviewer</strong> agent pre-commit</li>
@@ -1257,8 +1281,8 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
 
         <div class="tl-step up s-purple">
             <div class="tl-card">
-                <span class="tl-kicker">05 / QA</span>
                 <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-flask"/></svg></span><h3>Testing &amp; QA</h3></div>
+                <div class="tl-agents"><span>Jest</span><span>PT Generator</span></div>
                 <ul class="tl-list">
                     <li>Scenarios &amp; edge cases from AC</li>
                     <li>Automated regression coverage</li>
@@ -1520,13 +1544,13 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
         return { x:cx, y:r.bottom - s.top };
     }
 
-    function drawLine(d, color, width, dash){
+    function drawLine(d, color, width, dash, opacity){
         const p = document.createElementNS(NS, "path");
         p.setAttribute("d", d);
         p.setAttribute("fill", "none");
         p.setAttribute("stroke", color);
         p.setAttribute("stroke-width", width);
-        p.setAttribute("opacity", ".5");
+        p.setAttribute("opacity", opacity == null ? ".5" : opacity);
         if(dash){ p.setAttribute("stroke-dasharray", dash); }
         svg.appendChild(p);
     }
@@ -1557,19 +1581,24 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
             const b = point(nodes[i + 1], "left");
             const mid = (a.x + b.x) / 2;
             const d = "M " + a.x + " " + a.y + " C " + mid + " " + a.y + ", " + mid + " " + b.y + ", " + b.x + " " + b.y;
-            drawLine(d, "#2fa07c", 2, null);
+            drawLine(d, "#2fa07c", 2, null, ".5");
             drawDot(d, palette[i + 1]);
         }
 
-        // vertical connector from each stage node to its card
+        // elbow connector (orthogonal, right-angle turns) from each stage node to its card
         steps.forEach(function(step, i){
             const node = step.querySelector(".tl-node");
             const card = step.querySelector(".tl-card");
             const up = step.classList.contains("up");
             const a = point(node, up ? "top" : "bottom");
             const b = point(card, up ? "bottom" : "top");
-            const d = "M " + a.x + " " + a.y + " L " + b.x + " " + b.y;
-            drawLine(d, palette[i], 2, "4 4");
+            const gapY = (a.y + b.y) / 2;
+            const bx = b.x + 34;
+            const d = "M " + a.x + " " + a.y +
+                      " L " + a.x + " " + gapY +
+                      " L " + bx + " " + gapY +
+                      " L " + bx + " " + b.y;
+            drawLine(d, palette[i], 2, null, ".85");
             drawDot(d, palette[i]);
         });
     }
