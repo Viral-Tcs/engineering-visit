@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>BrandsHub - AI Adoption &amp; Agents</title>
+
+<style>
+:root{
+ /* Horizon foundation palette (workspace tokens) */
+ --brand:#005640;
+ --brand-tint:#2fa07c;
+ --brand-soft:#dfece2;
+ --success:#2db236;
+ --info:#1e5a7a;
+ --info-tint:#4aa3c2;
+ --warning:#ea6d12;
+ --error:#ea122a;
+ --purple:#8b6fd6;
+
+ --bg:#061613;
+ --card:#0d1815;
+ --border:#22322d;
+ --text:#ffffff;
+ --muted:#9fb2ab;
+ --blue:var(--brand-tint);
+ --green:var(--success);
+ --orange:var(--warning);
+ --cyan:var(--info-tint);
+}
+
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    background:
+        radial-gradient(circle at 8% 12%,rgba(47,160,124,.10),transparent 24rem),
+        radial-gradient(circle at 92% 80%,rgba(74,163,194,.08),transparent 28rem),
+        radial-gradient(circle at 50% 100%,rgba(139,111,214,.06),transparent 30rem),
+        var(--bg);
+    color:var(--text);
+    font-family:"Trebuchet MS","Segoe UI",sans-serif;
+    line-height:1.45;
+}
+
+.wrap{
+    width:min(1600px,calc(100% - 50px));
+    margin:auto;
+    padding:40px 0;
+}
+
+.wf-eyebrow{
+    color:var(--blue);
+    font-size:22px;
+    font-weight:700;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    text-shadow:0 0 24px rgba(47,160,124,.28);
+}
+
+.wf-description{
+    margin-top:20px;
+    padding:25px;
+    border-left:5px solid var(--blue);
+    background:linear-gradient(100deg,rgba(0,86,64,.28),rgba(13,24,21,.9));
+    box-shadow:0 14px 34px rgba(0,0,0,.18);
+    border-radius:10px;
+}
+
+.wf-description p{
+    margin:7px 0;
+    color:var(--muted);
+}
+
+.wf-description strong{
+    color:var(--text);
+}
+
+/* Section heading */
+.wf-section-title{
+    margin:46px 0 6px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    font-size:16px;
+    font-weight:700;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--text);
+}
+
+.wf-section-title::before{
+    content:"";
+    width:26px;
+    height:3px;
+    border-radius:3px;
+    background:linear-gradient(90deg,var(--brand-tint),var(--info-tint));
+}
+
+.wf-section-sub{
+    margin:0 0 24px;
+    color:var(--muted);
+    font-size:12px;
+    letter-spacing:.04em;
+}
+
+/* Metrics strip */
+.wf-metrics{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:18px;
+    margin-top:28px;
+}
+
+.wf-metric{
+    padding:20px;
+    background:linear-gradient(135deg,rgba(13,24,21,.98),rgba(15,30,25,.92));
+    border:1px solid var(--border);
+    border-top:3px solid var(--brand-tint);
+    border-radius:10px;
+    box-shadow:0 12px 28px rgba(0,0,0,.2);
+    text-align:center;
+}
+
+.wf-metric b{
+    display:block;
+    font-size:30px;
+    color:var(--brand-tint);
+    text-shadow:0 0 22px rgba(47,160,124,.35);
+}
+
+.wf-metric span{
+    display:block;
+    margin-top:6px;
+    color:var(--muted);
+    font-size:11px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+}
+
+/* Agent card grid */
+.wf-agents{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:22px;
+    margin-top:8px;
+}
+
+.wf-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-top:4px solid var(--blue);
+    border-radius:10px;
+    width:100%;
+    min-width:0;
+    padding:20px;
+    box-shadow:0 12px 28px rgba(0,0,0,.2);
+    transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;
+    display:flex;
+    flex-direction:column;
+}
+
+.wf-card:hover{
+    transform:translateY(-4px);
+    border-color:#3c4b59;
+    box-shadow:0 20px 38px rgba(0,0,0,.34);
+}
+
+.wf-card.t-green{ border-top-color:var(--green); }
+.wf-card.t-orange{ border-top-color:var(--orange); }
+.wf-card.t-cyan{ border-top-color:var(--info-tint); }
+.wf-card.t-purple{ border-top-color:var(--purple); }
+.wf-card.t-error{ border-top-color:var(--error); }
+
+.wf-card-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.wf-icon{
+    flex:0 0 auto;
+    width:42px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    font-size:20px;
+    background:rgba(47,160,124,.14);
+    border:1px solid rgba(47,160,124,.35);
+}
+
+.t-green .wf-icon{ background:rgba(45,178,54,.14); border-color:rgba(45,178,54,.35); }
+.t-orange .wf-icon{ background:rgba(234,109,18,.14); border-color:rgba(234,109,18,.4); }
+.t-cyan .wf-icon{ background:rgba(74,163,194,.14); border-color:rgba(74,163,194,.4); }
+.t-purple .wf-icon{ background:rgba(139,111,214,.16); border-color:rgba(139,111,214,.4); }
+.t-error .wf-icon{ background:rgba(234,18,42,.12); border-color:rgba(234,18,42,.35); }
+
+.wf-kicker{
+    color:var(--blue);
+    font-size:9px;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+}
+
+.t-green .wf-kicker{ color:var(--green); }
+.t-orange .wf-kicker{ color:var(--orange); }
+.t-cyan .wf-kicker{ color:var(--cyan); }
+.t-purple .wf-kicker{ color:var(--purple); }
+.t-error .wf-kicker{ color:#f0788a; }
+
+.wf-card h3{
+    margin:4px 0 0;
+    font-size:17px;
+    line-height:1.2;
+}
+
+.wf-card p.wf-lead{
+    margin:14px 0 0;
+    color:#c6d3d9;
+    font-size:12.5px;
+}
+
+.wf-list{
+    margin:14px 0 0;
+    padding-left:18px;
+    font-size:12px;
+}
+
+.wf-list li{
+    margin-bottom:6px;
+    color:#c6d3d9;
+}
+
+.wf-list li::marker{
+    color:var(--cyan);
+}
+
+.wf-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:auto;
+    padding-top:16px;
+}
+
+.wf-tags span{
+    padding:4px 9px;
+    border:1px solid rgba(45,178,54,.35);
+    border-radius:999px;
+    color:var(--green);
+    font-size:9.5px;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+}
+
+.wf-repo{
+    margin-top:12px;
+    font-size:10.5px;
+    color:var(--muted);
+    word-break:break-all;
+}
+
+.wf-repo a{
+    color:var(--cyan);
+    text-decoration:none;
+}
+
+.wf-repo a:hover{ text-decoration:underline; }
+
+/* Usage / adoption section */
+.wf-usages{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:20px;
+    margin-top:8px;
+}
+
+.wf-usage-card{
+    padding:22px;
+    background:linear-gradient(135deg,rgba(13,24,21,.98),rgba(15,30,25,.92));
+    border:1px solid var(--border);
+    border-left:4px solid var(--brand-tint);
+    border-radius:10px;
+    box-shadow:0 12px 28px rgba(0,0,0,.2);
+    transition:transform .3s ease,box-shadow .3s ease;
+}
+
+.wf-usage-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 18px 34px rgba(0,0,0,.32);
+}
+
+.wf-usage-card.u-green{ border-left-color:var(--success); }
+.wf-usage-card.u-orange{ border-left-color:var(--warning); }
+.wf-usage-card.u-cyan{ border-left-color:var(--info-tint); }
+.wf-usage-card.u-purple{ border-left-color:var(--purple); }
+.wf-usage-card.u-error{ border-left-color:var(--error); }
+
+.wf-usage-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.wf-usage-head .wf-icon{ width:38px; height:38px; font-size:18px; }
+
+.wf-usage-card h3{
+    margin:0;
+    font-size:15px;
+    line-height:1.25;
+}
+
+.wf-usage-card p{
+    margin:12px 0 0;
+    color:#c6d3d9;
+    font-size:12.5px;
+}
+
+.wf-badge{
+    display:inline-block;
+    margin-top:14px;
+    padding:5px 12px;
+    background:rgba(45,178,54,.16);
+    border:1px solid rgba(45,178,54,.4);
+    border-radius:999px;
+    color:#b6e6b4;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:.03em;
+}
+
+.footer{
+    margin-top:44px;
+    text-align:center;
+    color:var(--muted);
+    font-size:11px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+}
+
+@media(max-width:1200px){
+ .wrap{
+     width:min(720px,calc(100% - 32px));
+     padding:28px 0;
+ }
+ .wf-eyebrow{ font-size:18px; }
+ .wf-agents{ grid-template-columns:1fr; }
+ .wf-metrics{ grid-template-columns:repeat(2,1fr); }
+ .wf-usages{ grid-template-columns:1fr; }
+}
+
+/* ===================== SDLC LIFECYCLE WHEEL ===================== */
+.sdlc-stage{
+    display:flex;
+    justify-content:center;
+    margin-top:34px;
+}
+
+.sdlc-wheel{
+    position:relative;
+    width:560px;
+    height:560px;
+}
+
+.sdlc-ring{
+    position:absolute;
+    top:60px;
+    left:60px;
+    width:440px;
+    height:440px;
+    border-radius:50%;
+    border:2px dashed rgba(74,163,194,.32);
+    box-shadow:inset 0 0 60px rgba(47,160,124,.06);
+}
+
+.sdlc-center{
+    position:absolute;
+    top:180px;
+    left:180px;
+    width:200px;
+    height:200px;
+    border-radius:50%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    background:radial-gradient(circle at 50% 30%,rgba(0,86,64,.55),rgba(13,24,21,.96));
+    border:1px solid var(--border);
+    box-shadow:0 18px 40px rgba(0,0,0,.4),inset 0 0 40px rgba(47,160,124,.15);
+}
+
+.sdlc-center b{
+    font-size:24px;
+    color:var(--brand-tint);
+    letter-spacing:.05em;
+    text-shadow:0 0 20px rgba(47,160,124,.4);
+}
+
+.sdlc-center span{
+    margin-top:6px;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    color:var(--muted);
+}
+
+.sdlc-node{
+    position:absolute;
+    width:104px;
+    height:104px;
+    border-radius:50%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    gap:3px;
+    padding:8px;
+    cursor:pointer;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-top:3px solid var(--brand-tint);
+    box-shadow:0 12px 28px rgba(0,0,0,.28);
+    transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
+}
+
+.sdlc-node:hover,
+.sdlc-node:focus-visible{
+    transform:translateY(-4px) scale(1.06);
+    box-shadow:0 20px 40px rgba(0,0,0,.42);
+    border-color:#3c4b59;
+    outline:none;
+}
+
+.sdlc-node .sdlc-emoji{ font-size:22px; line-height:1; }
+.sdlc-node .sdlc-label{ font-size:10.5px; font-weight:700; line-height:1.15; color:var(--text); }
+.sdlc-node .sdlc-num{ font-size:8px; letter-spacing:.12em; color:var(--muted); text-transform:uppercase; }
+
+.sdlc-node.s-green{ border-top-color:var(--success); }
+.sdlc-node.s-cyan{ border-top-color:var(--info-tint); }
+.sdlc-node.s-orange{ border-top-color:var(--warning); }
+.sdlc-node.s-purple{ border-top-color:var(--purple); }
+.sdlc-node.s-error{ border-top-color:var(--error); }
+
+/* Modal */
+.sdlc-modal{
+    position:fixed;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:50;
+    padding:24px;
+}
+
+.sdlc-modal.open{ display:flex; }
+
+.sdlc-modal-backdrop{
+    position:absolute;
+    inset:0;
+    background:rgba(3,10,8,.72);
+    backdrop-filter:blur(4px);
+}
+
+.sdlc-modal-card{
+    position:relative;
+    width:min(680px,100%);
+    max-height:88vh;
+    overflow:auto;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+    background:linear-gradient(150deg,rgba(13,24,21,.99),rgba(9,18,15,.98));
+    border:1px solid var(--border);
+    border-top:4px solid var(--brand-tint);
+    border-radius:14px;
+    padding:28px;
+    box-shadow:0 30px 70px rgba(0,0,0,.55);
+    animation:sdlcIn .28s ease;
+}
+
+.sdlc-modal-card::-webkit-scrollbar{ display:none; }
+
+@keyframes sdlcIn{
+    from{ opacity:0; transform:translateY(16px) scale(.98); }
+    to{ opacity:1; transform:none; }
+}
+
+.sdlc-modal-close{
+    position:absolute;
+    top:16px;
+    right:16px;
+    width:34px;
+    height:34px;
+    border-radius:8px;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.04);
+    color:var(--muted);
+    font-size:20px;
+    line-height:1;
+    cursor:pointer;
+}
+
+.sdlc-modal-close:hover{ color:var(--text); border-color:#3c4b59; }
+
+.sdlc-modal-head{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding-right:40px;
+}
+
+.sdlc-modal-icon{
+    width:52px;
+    height:52px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:26px;
+    background:rgba(47,160,124,.14);
+    border:1px solid rgba(47,160,124,.35);
+    flex:0 0 auto;
+}
+
+.sdlc-modal-kicker{
+    font-size:10px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--brand-tint);
+}
+
+.sdlc-modal-card h3{ margin:4px 0 0; font-size:20px; line-height:1.2; }
+
+.sdlc-modal-lead{ margin:16px 0 0; color:#c6d3d9; font-size:13px; }
+
+.sdlc-modal-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-top:20px;
+}
+
+.sdlc-block{
+    background:rgba(0,0,0,.22);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:16px;
+}
+
+.sdlc-block h4{
+    margin:0 0 10px;
+    font-size:11px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--info-tint);
+}
+
+.sdlc-block ul{ margin:0; padding-left:18px; }
+.sdlc-block li{ margin-bottom:7px; font-size:12px; color:#c6d3d9; }
+.sdlc-block li::marker{ color:var(--brand-tint); }
+
+.sdlc-kpis{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:18px;
+}
+
+.sdlc-kpi{
+    text-align:center;
+    padding:14px 8px;
+    background:linear-gradient(135deg,rgba(47,160,124,.12),rgba(13,24,21,.6));
+    border:1px solid rgba(47,160,124,.28);
+    border-radius:10px;
+}
+
+.sdlc-kpi b{ display:block; font-size:18px; color:var(--brand-tint); }
+.sdlc-kpi span{ display:block; margin-top:4px; font-size:9.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); }
+
+.sdlc-human{
+    margin-top:18px;
+    padding:16px;
+    border-radius:10px;
+    border:1px solid rgba(234,109,18,.35);
+    background:rgba(234,109,18,.08);
+}
+
+.sdlc-human-label{
+    font-size:10px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--warning);
+    font-weight:700;
+}
+
+.sdlc-human p{ margin:8px 0 0; font-size:12.5px; color:#e7d4c4; }
+
+@media(max-width:640px){
+ .sdlc-wheel{ transform:scale(.58); margin:-118px auto; }
+ .sdlc-modal-grid{ grid-template-columns:1fr; }
+ .sdlc-kpis{ grid-template-columns:1fr; }
+}
+
+/* ===================== RICH INLINE ICONS ===================== */
+.ic{
+    width:22px;
+    height:22px;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    display:block;
+}
+
+.wf-icon{ color:var(--brand-tint); }
+.t-green .wf-icon{ color:var(--success); }
+.t-orange .wf-icon{ color:var(--warning); }
+.t-cyan .wf-icon{ color:var(--info-tint); }
+.t-purple .wf-icon{ color:var(--purple); }
+.t-error .wf-icon{ color:#f0788a; }
+
+.u-green .wf-icon{ color:var(--success); }
+.u-orange .wf-icon{ color:var(--warning); }
+.u-cyan .wf-icon{ color:var(--info-tint); }
+.u-purple .wf-icon{ color:var(--purple); }
+.u-error .wf-icon{ color:#f0788a; }
+.wf-usage-head .wf-icon .ic{ width:20px; height:20px; }
+
+.sdlc-node .sdlc-emoji{ color:var(--brand-tint); line-height:0; }
+.sdlc-node .sdlc-emoji .ic{ width:26px; height:26px; }
+.sdlc-node.s-green .sdlc-emoji{ color:var(--success); }
+.sdlc-node.s-cyan .sdlc-emoji{ color:var(--info-tint); }
+.sdlc-node.s-orange .sdlc-emoji{ color:var(--warning); }
+.sdlc-node.s-purple .sdlc-emoji{ color:var(--purple); }
+.sdlc-node.s-error .sdlc-emoji{ color:var(--error); }
+
+.sdlc-modal-icon{ color:var(--brand-tint); }
+.sdlc-modal-icon .ic{ width:28px; height:28px; }
+
+.sdlc-human-label .ic{ width:14px; height:14px; display:inline-block; vertical-align:-2px; margin-right:5px; }
+
+/* ===================== SDLC TIMELINE (v2) ===================== */
+.tl{
+    position:relative;
+    overflow-x:auto;
+    margin-top:24px;
+    padding:4px 2px 14px;
+}
+
+.tl-track{
+    position:relative;
+    display:grid;
+    grid-auto-flow:column;
+    grid-auto-columns:minmax(190px,1fr);
+    min-width:1080px;
+}
+
+.tl-lines{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    z-index:1;
+}
+
+.tl-step{
+    position:relative;
+    z-index:2;
+    display:grid;
+    grid-template-rows:1fr 60px 1fr;
+    align-items:center;
+    justify-items:center;
+    min-height:470px;
+    padding:0 10px;
+    --acc:var(--brand-tint);
+}
+
+.tl-step.s-green{ --acc:var(--success); }
+.tl-step.s-cyan{ --acc:var(--info-tint); }
+.tl-step.s-orange{ --acc:var(--warning); }
+.tl-step.s-purple{ --acc:var(--purple); }
+.tl-step.s-error{ --acc:var(--error); }
+
+.tl-card{
+    grid-row:1;
+    align-self:end;
+    width:100%;
+    max-width:235px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-top:3px solid var(--acc);
+    border-radius:10px;
+    padding:13px;
+    box-shadow:0 12px 26px rgba(0,0,0,.28);
+    transition:transform .3s ease,box-shadow .3s ease;
+}
+
+.tl-step.down .tl-card{ grid-row:3; align-self:start; }
+
+.tl-card:hover{ transform:translateY(-3px); box-shadow:0 18px 34px rgba(0,0,0,.4); }
+
+.tl-kicker{
+    color:var(--acc);
+    font-size:8.5px;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    font-weight:700;
+}
+
+.tl-card-head{ display:flex; align-items:center; gap:8px; margin-top:5px; }
+.tl-ic{ color:var(--acc); display:flex; }
+.tl-ic .ic{ width:17px; height:17px; }
+.tl-card-head h3{ margin:0; font-size:13px; line-height:1.2; }
+
+.tl-list{ margin:9px 0 0; padding-left:15px; font-size:10.5px; }
+.tl-list li{ margin-bottom:4px; color:#c6d3d9; line-height:1.3; }
+.tl-list li::marker{ color:var(--acc); }
+.tl-list strong{ color:var(--text); }
+
+.tl-kpis{ display:flex; flex-wrap:wrap; gap:5px; margin-top:10px; }
+.tl-kpis span{
+    padding:3px 7px;
+    border-radius:999px;
+    font-size:8.5px;
+    font-weight:700;
+    letter-spacing:.02em;
+    color:var(--acc);
+    border:1px solid currentColor;
+    background:rgba(255,255,255,.03);
+}
+
+.tl-human{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    margin-top:10px;
+    padding:5px 8px;
+    border-radius:6px;
+    font-size:9.5px;
+    color:#ffcf9d;
+    background:rgba(234,109,18,.1);
+    border:1px solid rgba(234,109,18,.3);
+}
+
+.tl-human .ic{ width:12px; height:12px; color:var(--warning); flex:0 0 auto; }
+
+.tl-node{
+    grid-row:2;
+    position:relative;
+    z-index:3;
+    width:56px;
+    height:56px;
+    border-radius:50%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:1px;
+    background:var(--card);
+    border:2px solid var(--acc);
+    color:var(--acc);
+    box-shadow:0 8px 20px rgba(0,0,0,.4);
+}
+
+.tl-node .tl-num{ font-size:8px; letter-spacing:.08em; color:var(--muted); }
+.tl-node .ic{ width:20px; height:20px; }
+
+@media(max-width:1200px){
+ .tl-lines{ display:none; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Icon sprite (Feather/Lucide-style line icons) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<defs>
+    <symbol id="ic-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+    <symbol id="ic-tool" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+    <symbol id="ic-flask" viewBox="0 0 24 24"><path d="M9 3h6"/><path d="M10 3v6l-5.2 9.4A2 2 0 0 0 6.6 21.4h10.8a2 2 0 0 0 1.8-3L14 9V3"/><path d="M7 15h10"/></symbol>
+    <symbol id="ic-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+    <symbol id="ic-message" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+    <symbol id="ic-rocket" viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 8-11 22 22 0 0 1-5 16z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></symbol>
+    <symbol id="ic-check" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+    <symbol id="ic-bug" viewBox="0 0 24 24"><path d="M9 7a3 3 0 0 1 6 0"/><path d="M12 20c-3.3 0-6-2.7-6-6v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2c0 3.3-2.7 6-6 6z"/><path d="M12 11v9"/><path d="M6.5 8 4 6"/><path d="M6 13H2"/><path d="M4 20l2.5-2"/><path d="M17.5 8 20 6"/><path d="M18 13h4"/><path d="M20 20l-2.5-2"/></symbol>
+    <symbol id="ic-puzzle" viewBox="0 0 24 24"><path d="M9 4a2 2 0 0 1 4 0c0 .5-.2 1 .3 1.3.4.3 1 .1 1.4-.1a2 2 0 1 1 2.8 2.8c-.2.4-.4 1-.1 1.4.3.5.8.3 1.3.3a2 2 0 0 1 0 4c-.5 0-1-.2-1.3.3-.3.4-.1 1 .1 1.4a2 2 0 1 1-2.8 2.8c-.4-.2-1-.4-1.4-.1-.5.3-.3.8-.3 1.3a2 2 0 0 1-4 0c0-.5.2-1-.3-1.3-.4-.3-1-.1-1.4.1a2 2 0 1 1-2.8-2.8c.2-.4.4-1 .1-1.4-.3-.5-.8-.3-1.3-.3a2 2 0 0 1 0-4c.5 0 1 .2 1.3-.3.3-.4.1-1-.1-1.4A2 2 0 1 1 7.3 5.2c.4.2 1 .4 1.4.1C9.2 5 9 4.5 9 4z"/></symbol>
+    <symbol id="ic-lightbulb" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A5 5 0 1 0 7.5 11.5c.76.76 1.23 1.52 1.41 2.5"/></symbol>
+    <symbol id="ic-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></symbol>
+    <symbol id="ic-trending" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></symbol>
+    <symbol id="ic-zap" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+    <symbol id="ic-star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+    <symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></symbol>
+    <symbol id="ic-layers" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></symbol>
+    <symbol id="ic-clipboard" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="M9 12h6"/><path d="M9 16h6"/></symbol>
+    <symbol id="ic-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></symbol>
+    <symbol id="ic-code" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></symbol>
+    <symbol id="ic-activity" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></symbol>
+    <symbol id="ic-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+</defs>
+</svg>
+
+<section class="workflow">
+<div class="wrap">
+
+<div class="wf-eyebrow">
+BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
+</div>
+
+<div class="wf-description">
+<p><strong>GitHub Copilot at the core:</strong> Purpose-built AI agents accelerate every stage of delivery &mdash; from feature generation to quality, testing and code review.</p>
+<p><strong>Custom Agents:</strong> api-generator &bull; sonar-maintainability-fixer &bull; jest-testcase-writer &bull; lint-staged-files &bull; local-copilot-reviewer &bull; pt-script-generator</p>
+<p><strong>Outcome:</strong> Faster delivery, consistent standards, higher quality &mdash; AI woven into the engineering workflow itself.</p>
+</div>
+
+<!-- METRICS -->
+<div class="wf-metrics">
+    <div class="wf-metric"><b>6</b><span>Custom Copilot Agents</span></div>
+    <div class="wf-metric"><b>&ge;80%</b><span>Auto Test Coverage Target</span></div>
+    <div class="wf-metric"><b>Full-Stack</b><span>Backend + Frontend + PT</span></div>
+    <div class="wf-metric"><b>0</b><span>Extra Points for Tests</span></div>
+</div>
+
+<!-- ===================== AGENTS ===================== -->
+<div class="wf-section-title">Our AI Agents</div>
+<p class="wf-section-sub">Custom GitHub Copilot modes engineered for the BrandsHub portfolio</p>
+
+<div class="wf-agents">
+
+    <!-- 1. API GENERATOR -->
+    <div class="wf-card t-green">
+        <div class="wf-card-head">
+            <div class="wf-icon"><svg class="ic"><use href="#ic-gear"/></svg></div>
+            <div>
+                <span class="wf-kicker">01 / Backend Generation</span>
+                <h3>API Generator Agent</h3>
+            </div>
+        </div>
+        <p class="wf-lead">
+            Automates end-to-end Spring Boot API features from a simple contract &mdash; a
+            spec file, interactive Q&amp;A, or Confluence link &mdash; producing a complete,
+            production-ready feature.
+        </p>
+        <ul class="wf-list">
+            <li>Loads project standards &amp; scans the codebase for existing patterns</li>
+            <li>Generates every layer bottom-up with full business logic &mdash; no TODO stubs</li>
+            <li>Auto-derives class names, packages &amp; sequential error codes</li>
+            <li>Adds unit tests + fixtures, builds &amp; validates &ge;80% coverage</li>
+        </ul>
+        <div class="wf-repo">
+            <a href="https://github.com/DigitalInnovation/cnh-brh-a3006-infra/blob/develop/.github/agents/api-generator.agent.md" target="_blank" rel="noopener">cnh-brh-a3006-infra &rsaquo; api-generator.agent.md</a>
+        </div>
+        <div class="wf-tags">
+            <span>Spring Boot</span><span>JUnit</span><span>Contract-First</span><span>Confluence</span>
+        </div>
+    </div>
+
+    <!-- 2. SONAR FIXER -->
+    <div class="wf-card t-cyan">
+        <div class="wf-card-head">
+            <div class="wf-icon"><svg class="ic"><use href="#ic-tool"/></svg></div>
+            <div>
+                <span class="wf-kicker">02 / Code Quality</span>
+                <h3>Sonar Maintainability Fixer</h3>
+            </div>
+        </div>
+        <p class="wf-lead">
+            Resolves SonarQube Maintainability (code smell) issues across the microservices &mdash;
+            making the smallest behaviour-preserving fix while introducing no new issues.
+        </p>
+        <ul class="wf-list">
+            <li>Fetches issues live from SonarCloud (or reads a JSON export)</li>
+            <li>Triages grouped by rule &amp; file, applies standards-compliant fixes</li>
+            <li>Handles complexity, duplicate literals, unused code, logging &amp; more</li>
+            <li>Verifies via Maven test build &mdash; writes a report, never auto-commits</li>
+        </ul>
+        <div class="wf-repo">
+            <a href="https://github.com/DigitalInnovation/cnh-brh-a3006-infra/blob/develop/.github/agents/sonar-maintainability-fixer.agent.md" target="_blank" rel="noopener">cnh-brh-a3006-infra &rsaquo; sonar-maintainability-fixer.agent.md</a>
+        </div>
+        <div class="wf-tags">
+            <span>SonarCloud</span><span>Maven</span><span>Code Smell</span><span>Standards-Compliant</span>
+        </div>
+    </div>
+
+    <!-- 3. JEST TESTCASE WRITER -->
+    <div class="wf-card t-orange">
+        <div class="wf-card-head">
+            <div class="wf-icon"><svg class="ic"><use href="#ic-flask"/></svg></div>
+            <div>
+                <span class="wf-kicker">03 / Frontend Testing</span>
+                <h3>Jest Testcase Writer</h3>
+            </div>
+        </div>
+        <p class="wf-lead">
+            Compares the current branch with <em>origin/develop</em> and updates Jest test cases
+            to match the changes &mdash; keeping modified frontend files green and well-covered.
+        </p>
+        <ul class="wf-list">
+            <li>Diffs against origin/develop &amp; creates new test files where needed</li>
+            <li>Targets &ge;80% coverage on each modified file</li>
+            <li>Mocks horizon-ui-components; follows existing test patterns</li>
+            <li>Handles snapshots correctly &amp; optimises redundant test code</li>
+        </ul>
+        <div class="wf-repo">
+            <a href="https://github.com/DigitalInnovation/cnh-brh-a3006-web/blob/develop/.github/agents/jest-testcase.agent.md" target="_blank" rel="noopener">cnh-brh-a3006-web &rsaquo; jest-testcase.agent.md</a>
+        </div>
+        <div class="wf-tags">
+            <span>Jest</span><span>Branch Diff</span><span>Snapshots</span><span>&ge;80% Coverage</span>
+        </div>
+    </div>
+
+    <!-- 4. LINT STAGED FILES -->
+    <div class="wf-card t-purple">
+        <div class="wf-card-head">
+            <div class="wf-icon"><svg class="ic"><use href="#ic-search"/></svg></div>
+            <div>
+                <span class="wf-kicker">04 / Pre-Commit Quality</span>
+                <h3>Lint Staged Files</h3>
+            </div>
+        </div>
+        <p class="wf-lead">
+            A lint-fix specialist that autonomously resolves ESLint violations and TypeScript
+            errors in changed files only &mdash; no refactoring beyond what lint rules require.
+        </p>
+        <ul class="wf-list">
+            <li>Collects staged / changed .ts &amp; .tsx files via git diff</li>
+            <li>Runs eslint --fix, then resolves remaining errors minimally</li>
+            <li>Validates with tsc --noEmit; fixes breakages it introduced</li>
+            <li>Follows copilot-instructions.md standards strictly</li>
+        </ul>
+        <div class="wf-repo">
+            <a href="https://github.com/DigitalInnovation/cnh-brh-a3006-web/blob/develop/.github/agents/lint-staged-files.agent.md" target="_blank" rel="noopener">cnh-brh-a3006-web &rsaquo; lint-staged-files.agent.md</a>
+        </div>
+        <div class="wf-tags">
+            <span>ESLint</span><span>TypeScript</span><span>Changed-Files</span><span>Autonomous</span>
+        </div>
+    </div>
+
+    <!-- 5. LOCAL COPILOT REVIEWER -->
+    <div class="wf-card t-green">
+        <div class="wf-card-head">
+            <div class="wf-icon"><svg class="ic"><use href="#ic-message"/></svg></div>
+            <div>
+                <span class="wf-kicker">05 / Code Review</span>
+                <h3>Local Copilot Reviewer</h3>
+            </div>
+        </div>
+        <p class="wf-lead">
+            A senior front-end reviewer that reviews uncommitted &amp; staged changes against the
+            coding standards, reports findings, then interactively fixes approved issues.
+        </p>
+        <ul class="wf-list">
+            <li>Reviews only changed lines from git diff / diff --staged</li>
+            <li>Loads standards from copilot-instructions.md first</li>
+            <li>Reports findings, then asks which fixes to apply</li>
+            <li>Applies minimal approved fixes with a resolution summary</li>
+        </ul>
+        <div class="wf-repo">
+            <a href="https://github.com/DigitalInnovation/cnh-brh-a3006-web/blob/develop/.github/agents/local_copilot_code_review.agent.md" target="_blank" rel="noopener">cnh-brh-a3006-web &rsaquo; local_copilot_code_review.agent.md</a>
+        </div>
+        <div class="wf-tags">
+            <span>Code Review</span><span>Git Diff</span><span>Interactive Fix</span>
+        </div>
+    </div>
+
+    <!-- 6. PT SCRIPT GENERATOR -->
+    <div class="wf-card t-error">
+        <div class="wf-card-head">
+            <div class="wf-icon"><svg class="ic"><use href="#ic-rocket"/></svg></div>
+            <div>
+                <span class="wf-kicker">06 / Performance Testing</span>
+                <h3>Performance Testing Script Generator</h3>
+            </div>
+        </div>
+        <p class="wf-lead">
+            Builds generic, reusable JMeter performance-testing projects from a requirement.json
+            &mdash; scaffolding a full module-driven PT structure any team can run without setup.
+        </p>
+        <ul class="wf-list">
+            <li>Generates per-module JMX plans: load, stress, spike &amp; soak</li>
+            <li>Config-driven auth, credentials &amp; token placement &mdash; no secrets</li>
+            <li>PowerShell runners emit HTML dashboards, CSV/MD summaries</li>
+            <li>Consolidated multi-module rollup &amp; shareable PDF report</li>
+        </ul>
+        <div class="wf-repo">
+            <a href="https://github.com/DigitalInnovation/cnh-brh-a3006-test-automation/blob/develop/.github/agent/pt-script-generator.agent.md" target="_blank" rel="noopener">cnh-brh-a3006-test-automation &rsaquo; pt-script-generator.agent.md</a>
+        </div>
+        <div class="wf-tags">
+            <span>JMeter</span><span>Load/Stress/Spike/Soak</span><span>HTML+PDF Reports</span>
+        </div>
+    </div>
+
+</div>
+
+<!-- ===================== GHCP IN PRACTICE ===================== -->
+<div class="wf-section-title">Improved Efficiency Across the SDLC</div>
+<p class="wf-section-sub">Measurable gains delivered across the software delivery lifecycle through GitHub Copilot &amp; our custom agents</p>
+
+<div class="wf-usages">
+
+    <div class="wf-usage-card u-green">
+        <div class="wf-usage-head">
+            <div class="wf-icon"><svg class="ic"><use href="#ic-check"/></svg></div>
+            <h3>Built-In Test Automation</h3>
+        </div>
+        <p>
+            Testing is no longer a separate phase &mdash; JUnit tests for APIs and Jest tests for
+            frontend components are produced by our agents as an inherent part of building each
+            feature, so coverage grows in lockstep with the code.
+        </p>
+        <span class="wf-badge">Zero dedicated test story points</span>
+    </div>
+
+    <div class="wf-usage-card u-orange">
+        <div class="wf-usage-head">
+            <div class="wf-icon"><svg class="ic"><use href="#ic-bug"/></svg></div>
+            <h3>Accelerated Root-Cause Analysis</h3>
+        </div>
+        <p>
+            When a defect surfaces, Copilot traces it through the full stack, explains the
+            failure in plain language and proposes a targeted fix &mdash; compressing hours of
+            manual investigation into minutes.
+        </p>
+        <span class="wf-badge">Dramatically faster time-to-resolution</span>
+    </div>
+
+    <div class="wf-usage-card u-cyan">
+        <div class="wf-usage-head">
+            <div class="wf-icon"><svg class="ic"><use href="#ic-puzzle"/></svg></div>
+            <h3>Comprehensive Test Scenarios</h3>
+        </div>
+        <p>
+            Copilot derives test scenarios and edge cases directly from requirements and
+            acceptance criteria, expanding coverage and surfacing corner cases that manual
+            test design routinely misses.
+        </p>
+        <span class="wf-badge">Broader, more reliable coverage</span>
+    </div>
+
+    <div class="wf-usage-card u-green">
+        <div class="wf-usage-head">
+            <div class="wf-icon"><svg class="ic"><use href="#ic-lightbulb"/></svg></div>
+            <h3>Faster Research &amp; Solution Design</h3>
+        </div>
+        <p>
+            Before a line of code is written, Copilot accelerates the discovery phase &mdash;
+            comparing approaches, evaluating libraries and pressure-testing design decisions so
+            teams commit to the right solution sooner.
+        </p>
+        <span class="wf-badge">Better-informed design decisions</span>
+    </div>
+
+    <div class="wf-usage-card u-purple">
+        <div class="wf-usage-head">
+            <div class="wf-icon"><svg class="ic"><use href="#ic-file"/></svg></div>
+            <h3>Automated Delivery Documentation</h3>
+        </div>
+        <p>
+            Atlassian Rovo agents draft and refine Jira stories, create and update Confluence
+            pages, and generate clear, reproducible bug write-ups &mdash; keeping every delivery
+            artefact complete and continuously in sync with the work.
+        </p>
+        <span class="wf-badge">Less admin, always up-to-date artefacts</span>
+    </div>
+
+    <div class="wf-usage-card u-orange">
+        <div class="wf-usage-head">
+            <div class="wf-icon"><svg class="ic"><use href="#ic-trending"/></svg></div>
+            <h3>Increased Delivery Throughput</h3>
+        </div>
+        <p>
+            With generation, testing and review handled by agents, the team ships more value
+            each sprint &mdash; throughput rises without adding headcount or stretching the
+            delivery cadence.
+        </p>
+        <span class="wf-badge">More value delivered per sprint</span>
+    </div>
+
+    <div class="wf-usage-card u-cyan">
+        <div class="wf-usage-head">
+            <div class="wf-icon"><svg class="ic"><use href="#ic-zap"/></svg></div>
+            <h3>Greater Agility to Change</h3>
+        </div>
+        <p>
+            Change is no longer costly &mdash; Copilot navigates the codebase, applies
+            coordinated edits across layers and reuses established patterns, collapsing the gap
+            between idea and working, tested change.
+        </p>
+        <span class="wf-badge">Faster, lower-risk change delivery</span>
+    </div>
+
+    <div class="wf-usage-card u-green">
+        <div class="wf-usage-head">
+            <div class="wf-icon"><svg class="ic"><use href="#ic-star"/></svg></div>
+            <h3>Consistently Higher Code Quality</h3>
+        </div>
+        <p>
+            Multiple AI review passes are built into the GitHub PR cycle, while coding standards
+            codified in repo-level instruction files anchor every change &mdash; so generated code
+            stays firmly aligned with our agreed conventions.
+        </p>
+        <span class="wf-badge">Consistent, standards-aligned code</span>
+    </div>
+
+    <div class="wf-usage-card u-error">
+        <div class="wf-usage-head">
+            <div class="wf-icon"><svg class="ic"><use href="#ic-shield"/></svg></div>
+            <h3>Security Shifted Left</h3>
+        </div>
+        <p>
+            Risk is caught early in the loop &mdash; AI PR review flags insecure patterns and
+            continuous lint fixing strips unsafe code before merge, embedding security into
+            everyday development rather than a late-stage gate.
+        </p>
+        <span class="wf-badge">Early detection, fewer vulnerabilities</span>
+    </div>
+
+    <div class="wf-usage-card u-purple">
+        <div class="wf-usage-head">
+            <div class="wf-icon"><svg class="ic"><use href="#ic-layers"/></svg></div>
+            <h3>More Predictable Stability</h3>
+        </div>
+        <p>
+            Broad automated coverage, enforced standards and consistent AI review mean far
+            fewer regressions reach production &mdash; releases become predictable and the
+            codebase stays resilient as it scales.
+        </p>
+        <span class="wf-badge">Fewer regressions, predictable releases</span>
+    </div>
+
+</div>
+
+<!-- ===================== SDLC LIFECYCLE WHEEL ===================== -->
+<div class="wf-section-title">AI Across the SDLC Lifecycle</div>
+
+<div class="sdlc-stage">
+    <div class="sdlc-wheel">
+        <div class="sdlc-ring"></div>
+        <div class="sdlc-center"><b>SDLC &times; AI</b><span>Click a stage</span></div>
+
+        <button type="button" class="sdlc-node s-green"  style="left:228px;top:8px"   data-step="1"><span class="sdlc-num">01</span><span class="sdlc-emoji"><svg class="ic"><use href="#ic-clipboard"/></svg></span><span class="sdlc-label">Plan &amp;<br>Requirements</span></button>
+        <button type="button" class="sdlc-node s-cyan"   style="left:384px;top:72px"  data-step="2"><span class="sdlc-num">02</span><span class="sdlc-emoji"><svg class="ic"><use href="#ic-compass"/></svg></span><span class="sdlc-label">Design &amp;<br>Architecture</span></button>
+        <button type="button" class="sdlc-node s-orange" style="left:448px;top:228px" data-step="3"><span class="sdlc-num">03</span><span class="sdlc-emoji"><svg class="ic"><use href="#ic-code"/></svg></span><span class="sdlc-label">Develop</span></button>
+        <button type="button" class="sdlc-node s-purple" style="left:384px;top:384px" data-step="4"><span class="sdlc-num">04</span><span class="sdlc-emoji"><svg class="ic"><use href="#ic-flask"/></svg></span><span class="sdlc-label">Testing &amp; QA</span></button>
+        <button type="button" class="sdlc-node s-green"  style="left:228px;top:448px" data-step="5"><span class="sdlc-num">05</span><span class="sdlc-emoji"><svg class="ic"><use href="#ic-message"/></svg></span><span class="sdlc-label">Code Review</span></button>
+        <button type="button" class="sdlc-node s-error"  style="left:72px;top:384px"  data-step="6"><span class="sdlc-num">06</span><span class="sdlc-emoji"><svg class="ic"><use href="#ic-shield"/></svg></span><span class="sdlc-label">Security</span></button>
+        <button type="button" class="sdlc-node s-cyan"   style="left:8px;top:228px"   data-step="7"><span class="sdlc-num">07</span><span class="sdlc-emoji"><svg class="ic"><use href="#ic-rocket"/></svg></span><span class="sdlc-label">Deploy &amp;<br>Release</span></button>
+        <button type="button" class="sdlc-node s-orange" style="left:72px;top:72px"   data-step="8"><span class="sdlc-num">08</span><span class="sdlc-emoji"><svg class="ic"><use href="#ic-activity"/></svg></span><span class="sdlc-label">Monitor &amp;<br>Operate</span></button>
+    </div>
+</div>
+
+<!-- SDLC MODAL -->
+<div class="sdlc-modal" id="sdlcModal" aria-hidden="true">
+    <div class="sdlc-modal-backdrop" data-close></div>
+    <div class="sdlc-modal-card" role="dialog" aria-modal="true" aria-labelledby="smTitle">
+        <button type="button" class="sdlc-modal-close" data-close aria-label="Close">&times;</button>
+        <div class="sdlc-modal-head">
+            <div class="sdlc-modal-icon" id="smIcon"></div>
+            <div>
+                <span class="sdlc-modal-kicker" id="smKicker"></span>
+                <h3 id="smTitle"></h3>
+            </div>
+        </div>
+        <p class="sdlc-modal-lead" id="smLead"></p>
+        <div class="sdlc-modal-grid">
+            <div class="sdlc-block">
+                <h4>AI &amp; Agents Applied</h4>
+                <ul id="smAgents"></ul>
+            </div>
+            <div class="sdlc-block">
+                <h4>Benefits</h4>
+                <ul id="smBenefits"></ul>
+            </div>
+        </div>
+        <div class="sdlc-kpis" id="smKpis"></div>
+        <div class="sdlc-human">
+            <span class="sdlc-human-label"><svg class="ic"><use href="#ic-user"/></svg> Human in the Loop</span>
+            <p id="smHuman"></p>
+        </div>
+    </div>
+</div>
+
+<!-- ===================== SDLC TIMELINE (v2 - linear connected flow) ===================== -->
+<div class="wf-section-title">AI Across the SDLC Lifecycle &mdash; Delivery Flow</div>
+<p class="wf-section-sub">The same lifecycle as a linear, connected pipeline &mdash; each stage summarised at a glance</p>
+
+<div class="tl" id="tlStage">
+    <div class="tl-track">
+        <svg class="tl-lines" id="tlLines"></svg>
+
+        <div class="tl-step up s-green">
+            <div class="tl-card">
+                <span class="tl-kicker">01 / Plan &amp; Design</span>
+                <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-clipboard"/></svg></span><h3>Planning &amp; Design</h3></div>
+                <ul class="tl-list">
+                    <li><strong>Rovo</strong> drafts &amp; grooms Jira stories</li>
+                    <li>Confluence docs auto-created &amp; synced</li>
+                    <li>Copilot shapes design &amp; acceptance criteria</li>
+                </ul>
+                <div class="tl-kpis"><span>~50% prep</span><span>Docs in sync</span></div>
+                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> PO &amp; architects validate scope</div>
+            </div>
+            <div class="tl-node"><span class="tl-num">01</span><svg class="ic"><use href="#ic-clipboard"/></svg></div>
+        </div>
+
+        <div class="tl-step down s-orange">
+            <div class="tl-card">
+                <span class="tl-kicker">02 / Build</span>
+                <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-code"/></svg></span><h3>Development &amp; Unit Testing</h3></div>
+                <ul class="tl-list">
+                    <li><strong>API Generator</strong> builds full features</li>
+                    <li>Spec-driven dev from <strong>SPEC.md</strong></li>
+                    <li>Custom GHCP instructions enforce standards</li>
+                    <li><strong>Jest</strong> &amp; JUnit unit tests generated</li>
+                </ul>
+                <div class="tl-kpis"><span>&ge;80% cov</span><span>0 stubs</span></div>
+                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Engineers own business logic</div>
+            </div>
+            <div class="tl-node"><span class="tl-num">02</span><svg class="ic"><use href="#ic-code"/></svg></div>
+        </div>
+
+        <div class="tl-step up s-error">
+            <div class="tl-card">
+                <span class="tl-kicker">03 / Security</span>
+                <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-shield"/></svg></span><h3>Security &amp; Compliance</h3></div>
+                <ul class="tl-list">
+                    <li><strong>ESLint</strong> auto-fixes on changed files</li>
+                    <li><strong>Sonar</strong> maintainability issues fixed via agent</li>
+                    <li>Insecure patterns caught early</li>
+                </ul>
+                <div class="tl-kpis"><span>Shift-left</span><span>Clean gate</span></div>
+                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Security engineers sign off</div>
+            </div>
+            <div class="tl-node"><span class="tl-num">03</span><svg class="ic"><use href="#ic-shield"/></svg></div>
+        </div>
+
+        <div class="tl-step down s-cyan">
+            <div class="tl-card">
+                <span class="tl-kicker">04 / Review</span>
+                <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-message"/></svg></span><h3>Code Review &amp; Refactoring</h3></div>
+                <ul class="tl-list">
+                    <li>Built-in <strong>AI PR review</strong> in GitHub</li>
+                    <li><strong>Local Reviewer</strong> agent pre-commit</li>
+                    <li>Guided, standards-safe refactors</li>
+                </ul>
+                <div class="tl-kpis"><span>Multi-pass</span><span>Faster PRs</span></div>
+                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Seniors approve the merge</div>
+            </div>
+            <div class="tl-node"><span class="tl-num">04</span><svg class="ic"><use href="#ic-message"/></svg></div>
+        </div>
+
+        <div class="tl-step up s-purple">
+            <div class="tl-card">
+                <span class="tl-kicker">05 / QA</span>
+                <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-flask"/></svg></span><h3>Testing &amp; QA</h3></div>
+                <ul class="tl-list">
+                    <li>Scenarios &amp; edge cases from AC</li>
+                    <li>Automated regression coverage</li>
+                    <li><strong>PT scripts</strong> validate performance</li>
+                </ul>
+                <div class="tl-kpis"><span>Broader cover</span><span>Fewer escapes</span></div>
+                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> QA runs exploratory testing</div>
+            </div>
+            <div class="tl-node"><span class="tl-num">05</span><svg class="ic"><use href="#ic-flask"/></svg></div>
+        </div>
+
+    </div>
+</div>
+
+</div>
+</section>
+
+<script>
+(function(){
+    const sdlcData = {
+        "1": {
+            kicker:"01 / Plan &amp; Requirements",
+            icon:'<svg class="ic"><use href="#ic-clipboard"/></svg>',
+            title:"Plan &amp; Requirements",
+            lead:"Requirements are captured, groomed and turned into build-ready stories with AI &mdash; before a line of code is written.",
+            agents:[
+                "<strong>Rovo Agents</strong> draft &amp; refine Jira stories and epics",
+                "Copilot Chat expands acceptance criteria &amp; edge cases",
+                "Confluence pages auto-created &amp; kept in sync",
+                "Bug tickets get clear, reproducible descriptions"
+            ],
+            benefits:[
+                "Consistent, well-formed stories every sprint",
+                "Far less manual documentation admin",
+                "Shared understanding established earlier"
+            ],
+            kpis:[
+                {v:"~50%",l:"Less story-prep time"},
+                {v:"100%",l:"Stories with AC"},
+                {v:"Always",l:"Docs in sync"}
+            ],
+            human:"Product Owners validate scope, priority and business intent &mdash; agents draft, humans decide what gets built."
+        },
+        "2": {
+            kicker:"02 / Design &amp; Architecture",
+            icon:'<svg class="ic"><use href="#ic-compass"/></svg>',
+            title:"Design &amp; Architecture",
+            lead:"Copilot accelerates the discovery and design phase, comparing options and documenting the rationale behind each decision.",
+            agents:[
+                "Copilot researches libraries, patterns &amp; trade-offs",
+                "Generates design options &amp; sequence outlines",
+                "Drafts ADRs and technical design notes",
+                "Validates approaches against existing codebase"
+            ],
+            benefits:[
+                "Better-informed, faster design decisions",
+                "More alternatives evaluated per spike",
+                "Design rationale captured automatically"
+            ],
+            kpis:[
+                {v:"Faster",l:"Design spikes"},
+                {v:"More",l:"Options evaluated"},
+                {v:"Documented",l:"Decisions"}
+            ],
+            human:"Architects own trade-offs, non-functional requirements and security-by-design &mdash; approving the final direction."
+        },
+        "3": {
+            kicker:"03 / Develop",
+            icon:'<svg class="ic"><use href="#ic-code"/></svg>',
+            title:"Develop &amp; Build",
+            lead:"Custom agents generate production-ready features across every layer &mdash; no TODO stubs, standards baked in.",
+            agents:[
+                "<strong>API Generator</strong> builds full Spring Boot features",
+                "Copilot inline for frontend &amp; backend logic",
+                "Reuses established project patterns automatically",
+                "Coverage &amp; fixtures generated alongside code"
+            ],
+            benefits:[
+                "Faster feature delivery, full business logic",
+                "Standards-aligned from the first commit",
+                "Less boilerplate, fewer manual errors"
+            ],
+            kpis:[
+                {v:"&ge;80%",l:"Coverage baked in"},
+                {v:"Faster",l:"Feature build"},
+                {v:"0",l:"TODO stubs"}
+            ],
+            human:"Engineers own business-logic correctness and review all generated code before it moves forward."
+        },
+        "4": {
+            kicker:"04 / Testing &amp; QA",
+            icon:'<svg class="ic"><use href="#ic-flask"/></svg>',
+            title:"Testing &amp; QA",
+            lead:"Testing is an inherent part of building &mdash; JUnit and Jest suites plus scenarios are generated as the feature is built.",
+            agents:[
+                "<strong>Jest Testcase Writer</strong> covers modified frontend files",
+                "JUnit generation for API features",
+                "Test scenarios &amp; edge cases derived from AC",
+                "Snapshots handled &amp; redundant tests optimised"
+            ],
+            benefits:[
+                "Coverage grows in lockstep with the code",
+                "Edge cases surfaced that manual design misses",
+                "No dedicated test story points required"
+            ],
+            kpis:[
+                {v:"&ge;80%",l:"Auto coverage"},
+                {v:"0",l:"Extra test points"},
+                {v:"Broader",l:"Edge-case cover"}
+            ],
+            human:"QA validates business scenarios and runs exploratory testing where human judgement matters most."
+        },
+        "5": {
+            kicker:"05 / Code Review",
+            icon:'<svg class="ic"><use href="#ic-message"/></svg>',
+            title:"Code Review",
+            lead:"Multiple AI review passes are built into the GitHub PR cycle, anchored by repo-level coding standards.",
+            agents:[
+                "<strong>Local Copilot Reviewer</strong> checks pre-commit changes",
+                "AI PR review runs multiple passes in the PR cycle",
+                "Repo-level instruction files enforce standards",
+                "Findings reported before human review starts"
+            ],
+            benefits:[
+                "Consistent standards on every change",
+                "Faster feedback, fewer review round-trips",
+                "Reviewers focus on design, not nitpicks"
+            ],
+            kpis:[
+                {v:"Multi-pass",l:"AI PR review"},
+                {v:"Faster",l:"PR turnaround"},
+                {v:"Higher",l:"Standards adherence"}
+            ],
+            human:"Senior engineers make the final merge call and apply architectural judgement AI can't own."
+        },
+        "6": {
+            kicker:"06 / Security &amp; Compliance",
+            icon:'<svg class="ic"><use href="#ic-shield"/></svg>',
+            title:"Security &amp; Compliance",
+            lead:"Risk is caught early &mdash; security shifts left into everyday development instead of a late-stage gate.",
+            agents:[
+                "AI PR review flags insecure patterns early",
+                "<strong>Lint Staged Files</strong> strips unsafe code pre-merge",
+                "<strong>Sonar Maintainability Fixer</strong> clears code smells",
+                "Continuous checks across the microservices"
+            ],
+            benefits:[
+                "Vulnerabilities found earlier in the loop",
+                "Fewer late-stage security findings",
+                "Cleaner SonarCloud &amp; maintainability posture"
+            ],
+            kpis:[
+                {v:"Shift-Left",l:"Detection point"},
+                {v:"Fewer",l:"Late findings"},
+                {v:"Clean",l:"Sonar quality gate"}
+            ],
+            human:"Security engineers review the threat model and sign off on compliance &mdash; AI flags, humans clear."
+        },
+        "7": {
+            kicker:"07 / Deploy &amp; Release",
+            icon:'<svg class="ic"><use href="#ic-rocket"/></svg>',
+            title:"Deploy &amp; Release",
+            lead:"Copilot smooths release preparation while performance is validated up front by generated PT suites.",
+            agents:[
+                "Copilot assists pipeline &amp; IaC scripting",
+                "Drafts release notes from merged changes",
+                "<strong>PT Script Generator</strong> validates performance",
+                "Load / stress / spike / soak plans run pre-release"
+            ],
+            benefits:[
+                "Smoother, better-documented releases",
+                "Performance validated before go-live",
+                "Fewer surprises and rollbacks"
+            ],
+            kpis:[
+                {v:"Faster",l:"Release prep"},
+                {v:"4-way",l:"PT validation"},
+                {v:"Fewer",l:"Rollbacks"}
+            ],
+            human:"Release managers own the go / no-go decision and approve every production change."
+        },
+        "8": {
+            kicker:"08 / Monitor &amp; Operate",
+            icon:'<svg class="ic"><use href="#ic-activity"/></svg>',
+            title:"Monitor &amp; Operate",
+            lead:"When issues arise in production, Copilot compresses root-cause analysis from hours into minutes.",
+            agents:[
+                "Copilot traces failures through the full stack",
+                "Explains errors in plain language",
+                "Proposes targeted fixes &amp; regression tests",
+                "Accelerates log analysis &amp; triage"
+            ],
+            benefits:[
+                "Dramatically faster time-to-resolution",
+                "Quicker, more confident triage",
+                "Less manual investigation effort"
+            ],
+            kpis:[
+                {v:"Lower",l:"MTTR"},
+                {v:"Faster",l:"Triage"},
+                {v:"Minutes",l:"Not hours"}
+            ],
+            human:"On-call engineers verify fixes and assess production impact before anything ships to users."
+        }
+    };
+
+    const modal = document.getElementById("sdlcModal");
+    const li = arr => arr.map(x => "<li>" + x + "</li>").join("");
+    const kpi = arr => arr.map(k => '<div class="sdlc-kpi"><b>' + k.v + '</b><span>' + k.l + '</span></div>').join("");
+
+    function openStep(id){
+        const d = sdlcData[id];
+        if(!d){ return; }
+        document.getElementById("smIcon").innerHTML = d.icon;
+        document.getElementById("smKicker").innerHTML = d.kicker;
+        document.getElementById("smTitle").innerHTML = d.title;
+        document.getElementById("smLead").innerHTML = d.lead;
+        document.getElementById("smAgents").innerHTML = li(d.agents);
+        document.getElementById("smBenefits").innerHTML = li(d.benefits);
+        document.getElementById("smKpis").innerHTML = kpi(d.kpis);
+        document.getElementById("smHuman").innerHTML = d.human;
+        modal.classList.add("open");
+        modal.setAttribute("aria-hidden", "false");
+    }
+
+    function closeStep(){
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+    }
+
+    document.querySelectorAll(".sdlc-node").forEach(function(n){
+        n.addEventListener("click", function(){ openStep(n.dataset.step); });
+    });
+    modal.querySelectorAll("[data-close]").forEach(function(el){
+        el.addEventListener("click", closeStep);
+    });
+    document.addEventListener("keydown", function(e){
+        if(e.key === "Escape"){ closeStep(); }
+    });
+})();
+</script>
+
+<script>
+(function(){
+    const stage = document.getElementById("tlStage");
+    const track = stage.querySelector(".tl-track");
+    const svg = document.getElementById("tlLines");
+    const palette = ["#2db236","#4aa3c2","#ea6d12","#8b6fd6","#2db236","#ea122a","#4aa3c2","#ea6d12"];
+    const NS = "http://www.w3.org/2000/svg";
+
+    function point(el, side){
+        const r = el.getBoundingClientRect();
+        const s = track.getBoundingClientRect();
+        const cx = r.left - s.left + r.width / 2;
+        const cy = r.top - s.top + r.height / 2;
+        if(side === "left"){ return { x:r.left - s.left, y:cy }; }
+        if(side === "right"){ return { x:r.right - s.left, y:cy }; }
+        if(side === "top"){ return { x:cx, y:r.top - s.top }; }
+        return { x:cx, y:r.bottom - s.top };
+    }
+
+    function drawLine(d, color, width, dash){
+        const p = document.createElementNS(NS, "path");
+        p.setAttribute("d", d);
+        p.setAttribute("fill", "none");
+        p.setAttribute("stroke", color);
+        p.setAttribute("stroke-width", width);
+        p.setAttribute("opacity", ".5");
+        if(dash){ p.setAttribute("stroke-dasharray", dash); }
+        svg.appendChild(p);
+    }
+
+    function drawDot(d, color){
+        const c = document.createElementNS(NS, "circle");
+        c.setAttribute("r", "4");
+        c.setAttribute("fill", color);
+        const m = document.createElementNS(NS, "animateMotion");
+        m.setAttribute("dur", "3s");
+        m.setAttribute("repeatCount", "indefinite");
+        m.setAttribute("path", d);
+        c.appendChild(m);
+        svg.appendChild(c);
+    }
+
+    function build(){
+        while(svg.firstChild){ svg.removeChild(svg.firstChild); }
+        svg.setAttribute("width", track.scrollWidth);
+        svg.setAttribute("height", track.scrollHeight);
+
+        const nodes = Array.prototype.slice.call(track.querySelectorAll(".tl-node"));
+        const steps = Array.prototype.slice.call(track.querySelectorAll(".tl-step"));
+
+        // horizontal spine between consecutive stages
+        for(let i = 0; i < nodes.length - 1; i++){
+            const a = point(nodes[i], "right");
+            const b = point(nodes[i + 1], "left");
+            const mid = (a.x + b.x) / 2;
+            const d = "M " + a.x + " " + a.y + " C " + mid + " " + a.y + ", " + mid + " " + b.y + ", " + b.x + " " + b.y;
+            drawLine(d, "#2fa07c", 2, null);
+            drawDot(d, palette[i + 1]);
+        }
+
+        // vertical connector from each stage node to its card
+        steps.forEach(function(step, i){
+            const node = step.querySelector(".tl-node");
+            const card = step.querySelector(".tl-card");
+            const up = step.classList.contains("up");
+            const a = point(node, up ? "top" : "bottom");
+            const b = point(card, up ? "bottom" : "top");
+            const d = "M " + a.x + " " + a.y + " L " + b.x + " " + b.y;
+            drawLine(d, palette[i], 2, "4 4");
+            drawDot(d, palette[i]);
+        });
+    }
+
+    window.addEventListener("load", build);
+    window.addEventListener("resize", build);
+    setTimeout(build, 300);
+})();
+</script>
+
+</body>
+</html>

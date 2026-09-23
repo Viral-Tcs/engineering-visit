@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Specification Driven Development</title>
+
+<style>
+:root{
+ /* Horizon foundation palette (workspace tokens) */
+ --brand:#005640;
+ --brand-tint:#2fa07c;
+ --brand-soft:#dfece2;
+ --success:#2db236;
+ --info:#1e5a7a;
+ --info-tint:#4aa3c2;
+ --warning:#ea6d12;
+ --error:#ea122a;
+
+ --bg:#061613;
+ --card:#0d1815;
+ --border:#22322d;
+ --text:#ffffff;
+ --muted:#9fb2ab;
+ --blue:var(--brand-tint);
+ --green:var(--success);
+ --orange:var(--warning);
+ --cyan:var(--info-tint);
+}
+
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    background:
+        radial-gradient(circle at 8% 12%,rgba(47,160,124,.10),transparent 24rem),
+        radial-gradient(circle at 92% 80%,rgba(74,163,194,.08),transparent 28rem),
+        var(--bg);
+    color:var(--text);
+    font-family:"Trebuchet MS","Segoe UI",sans-serif;
+    line-height:1.45;
+}
+
+.wrap{
+    width:min(1600px,calc(100% - 50px));
+    margin:auto;
+    padding:40px 0;
+}
+
+.wf-eyebrow{
+    color:var(--blue);
+    font-size:22px;
+    font-weight:700;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    text-shadow:0 0 24px rgba(47,160,124,.28);
+}
+
+.wf-description{
+    margin-top:20px;
+    padding:25px;
+    border-left:5px solid var(--blue);
+    background:linear-gradient(100deg,rgba(0,86,64,.28),rgba(13,24,21,.9));
+    box-shadow:0 14px 34px rgba(0,0,0,.18);
+    border-radius:10px;
+}
+
+.wf-description p{
+    margin:7px 0;
+    color:var(--muted);
+}
+
+.wf-description strong{
+    color:var(--text);
+}
+
+#wf-stage{
+    position:relative;
+    margin-top:40px;
+}
+
+#wf-lines{
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    z-index:1;
+    pointer-events:none;
+}
+
+.wf-pipeline{
+    position:relative;
+    z-index:2;
+    display:flex;
+    gap:28px;
+    align-items:stretch;
+}
+
+.wf-pipeline > .wf-stagecol,
+.wf-pipeline > .wf-col-exec{
+    flex:1 1 0;
+    min-width:0;
+}
+
+.wf-stagecol{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.wf-col-exec{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.wf-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-top:4px solid var(--blue);
+    border-radius:10px;
+    width:100%;
+    min-width:0;
+    padding:16px;
+    box-shadow:0 12px 28px rgba(0,0,0,.2);
+    transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;
+}
+
+.wf-card:hover{
+    transform:translateY(-3px);
+    border-color:#3c4b59;
+    box-shadow:0 18px 34px rgba(0,0,0,.3);
+}
+
+.wf-track-green{
+    border-top-color:var(--green);
+}
+
+.wf-track-orange{
+    border-top-color:var(--orange);
+}
+
+.wf-kicker{
+    color:var(--blue);
+    font-size:9px;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+}
+
+.wf-card h3{
+    margin:9px 0 8px;
+    font-size: 15px;
+    line-height:1.25;
+}
+
+.wf-spec-card{
+    padding:13px;
+}
+
+.wf-spec-card .wf-list{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    column-gap:18px;
+    row-gap:8px;
+    margin-top:10px;
+    padding-left:16px;
+    font-size:11px;
+}
+
+.wf-spec-card .wf-list li{
+    margin-bottom:0;
+    line-height:1.25;
+}
+
+.wf-agent-card{
+    padding:13px;
+}
+
+.wf-agent-card .wf-list{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    column-gap:18px;
+    row-gap:8px;
+    margin-top:10px;
+    padding-left:16px;
+    font-size:11px;
+}
+
+.wf-agent-card .wf-list li{
+    margin-bottom:0;
+    line-height:1.25;
+}
+
+.wf-context{
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
+    margin-top:11px;
+}
+
+.wf-context span{
+    padding:3px 6px;
+    border:1px solid rgba(45,178,54,.35);
+    border-radius:5px;
+    color:var(--green);
+    font-size:9px;
+    letter-spacing:.03em;
+}
+
+.wf-skill{
+    display:inline-block;
+    padding:3px 7px;
+    border:1px solid rgba(74,163,194,.4);
+    border-radius:999px;
+    color:var(--cyan);
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.05em;
+}
+
+.wf-list{
+    margin:12px 0 0;
+    padding-left:18px;
+    font-size:12px;
+}
+
+.wf-list li{
+    margin-bottom:5px;
+    color:#c6d3d9;
+}
+
+.wf-list li::marker{
+    color:var(--cyan);
+}
+
+.wf-note{
+    margin-top:12px;
+    padding:8px;
+    border-radius:6px;
+    font-size:10px;
+}
+
+.wf-spec-card .wf-note{
+    margin-top:10px;
+    padding:6px 8px;
+    border-left:2px solid var(--green);
+    border-radius:0 5px 5px 0;
+}
+
+.human{
+    background:rgba(45,178,54,.18);
+    color:#b6e6b4;
+}
+
+.gate{
+    background:rgba(234,109,18,.18);
+    color:#ffcf9d;
+}
+
+.wf-artifact{
+    margin-top:8px;
+    padding:8px;
+    background:#0f1a17;
+    border:1px solid #223029;
+    border-radius:6px;
+    font-size:11px;
+}
+
+.wf-artifact b,
+.wf-artifact span{
+    display:block;
+}
+
+.wf-artifact b{
+    color:var(--text);
+    font-size:10px;
+    letter-spacing:.07em;
+}
+
+.wf-artifact span{
+    margin-top:2px;
+    color:var(--muted);
+}
+
+.wf-modes{
+    display:grid;
+    gap:7px;
+    margin-top:12px;
+}
+
+.wf-mode{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:#c6d3d9;
+    font-size:11px;
+}
+
+.wf-mode i{
+    min-width:38px;
+    padding:3px 5px;
+    border:1px solid rgba(234,109,18,.55);
+    border-radius:5px;
+    color:var(--orange);
+    font-size:9px;
+    font-style:normal;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-align:center;
+}
+
+.wf-caption{
+    margin:12px 0 0;
+    color:var(--muted);
+    font-size:10px;
+    font-style:italic;
+}
+
+.wf-finalize-card{
+    padding:16px;
+}
+
+.wf-finalize-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;
+    margin-top:12px;
+}
+
+.wf-finalize-section{
+    display:flex;
+    flex-direction:column;
+}
+
+.wf-sub-kicker{
+    display:block;
+    margin-bottom:4px;
+    color:var(--cyan);
+    font-size:9px;
+    font-weight:700;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+}
+
+.wf-finalize-section .wf-list{
+    margin-top:4px;
+    padding-left:16px;
+    font-size:11px;
+}
+
+.wf-finalize-section .wf-list li{
+    margin-bottom:3px;
+    line-height:1.25;
+}
+
+.wf-benefits{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:20px;
+    margin-top:34px;
+}
+
+.wf-benefit-card{
+    padding:18px;
+    background:linear-gradient(135deg,rgba(13,24,21,.98),rgba(15,30,25,.92));
+    border:1px solid var(--border);
+    border-top:3px solid var(--brand-tint);
+    border-radius:10px;
+    box-shadow:0 12px 28px rgba(0,0,0,.2);
+}
+
+.wf-benefit-card.business{
+    border-top-color:var(--success);
+}
+
+.wf-benefit-card h3{
+    margin:8px 0 14px;
+    font-size:16px;
+}
+
+.wf-benefit-chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px 10px;
+    margin:0;
+}
+
+.wf-benefit-chip{
+    display:inline-flex;
+    align-items:center;
+    width:auto;
+    padding:8px 14px;
+    background:rgba(47,160,124,.12);
+    border:1px solid rgba(47,160,124,.35);
+    border-radius:999px;
+    color:#d5e5df;
+    font-size:13px;
+    line-height:1.3;
+}
+
+.wf-benefit-card.business .wf-benefit-chip{
+    background:rgba(45,178,54,.12);
+    border-color:rgba(45,178,54,.35);
+}
+
+.footer{
+    margin-top:30px;
+    text-align:center;
+    color:var(--muted);
+     font-size:11px;
+     letter-spacing:.08em;
+     text-transform:uppercase;
+}
+
+@media(max-width:1200px){
+ .wrap{
+     width:min(680px,calc(100% - 32px));
+     padding:28px 0;
+ }
+
+ .wf-eyebrow{
+     font-size:18px;
+ }
+
+ .wf-description{
+     padding:18px;
+ }
+
+ .wf-pipeline{
+    flex-direction:column;
+ }
+
+ .wf-benefits{
+     grid-template-columns:1fr;
+ }
+
+ #wf-lines{
+    display:none;
+ }
+}
+</style>
+</head>
+
+<body>
+
+<section class="workflow">
+
+<div class="wrap">
+
+<div class="wf-eyebrow">
+BRANDSHUB - SPECIFICATION DRIVEN DEVELOPMENT
+</div>
+
+<div class="wf-description">
+<p><strong>Single Source of Truth:</strong> Specification drives backend and frontend code generation.</p>
+<p><strong>Agents:</strong> api-generator + ui-generator</p>
+<p><strong>Flow:</strong> Story → Specification → Generation → Validation → Running Application</p>
+</div>
+
+<div id="wf-stage">
+
+<svg id="wf-lines"></svg>
+
+<div class="wf-pipeline">
+
+    <!-- TRIGGER -->
+
+    <div class="wf-stagecol wf-col-trigger">
+        <div class="wf-card" id="wf-trigger">
+
+            <span class="wf-kicker">01 / Trigger</span>
+
+            <h3>Business Requirement</h3>
+
+            <ul class="wf-list">
+                <li>User Story</li>
+                <li>Business Rules</li>
+                <li>Acceptance Criteria</li>
+            </ul>
+
+        </div>
+    </div>
+
+    <!-- SPECIFICATION ANALYSIS -->
+
+    <div class="wf-col-exec">
+
+        <!-- BACKEND SPEC -->
+
+        <div class="wf-card wf-spec-card" id="wf-backend-spec">
+
+            <span class="wf-kicker">
+                02A / Backend Specification
+            </span>
+
+            <h3>Backend Specification</h3>
+
+            <ul class="wf-list">
+                <li>API Endpoint Extraction</li>
+                <li>Request & Response Models</li>
+                <li>Business Logic Rules</li>
+                <li>Database Storage Strategy</li>
+                <li>Validation Requirements</li>
+                <li>Service Contract Extraction</li>
+            </ul>
+
+            <div class="wf-note human">
+                Backend specification review
+            </div>
+
+        </div>
+
+        <!-- UI SPEC -->
+
+        <div class="wf-card wf-spec-card" id="wf-ui-spec">
+
+            <span class="wf-kicker">
+                02B / UI Specification
+            </span>
+
+            <h3>UI Feature Specification</h3>
+
+            <ul class="wf-list">
+                <li>Feature Definition</li>
+                <li>Screen Requirements</li>
+                <li>User Interaction Flow</li>
+                <li>Component Structure</li>
+                <li>BFF Mapping Rules</li>
+                <li>Navigation Design</li>
+            </ul>
+
+            <div class="wf-note human">
+                UI specification review
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- DECISION -->
+
+    <div class="wf-stagecol wf-col-decision">
+        <div class="wf-card wf-decision-card" id="wf-decision">
+
+            <span class="wf-kicker">
+                03 / Generation Decision
+            </span>
+
+            <h3>Agent Orchestration</h3>
+
+            <div class="wf-modes">
+
+                <div class="wf-mode">
+                    <i>API</i>
+                    Backend Only
+                </div>
+
+                <div class="wf-mode">
+                    <i>UI</i>
+                    Frontend Only
+                </div>
+
+                <div class="wf-mode">
+                    <i>BOTH</i>
+                    Full Stack
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- EXECUTION -->
+
+    <div class="wf-col-exec">
+
+        <!-- BACKEND AGENT -->
+
+        <div class="wf-card wf-agent-card wf-track wf-up" id="wf-backend">
+
+            <span class="wf-kicker">
+                04A / Backend Generation Agent
+            </span>
+
+            <h3>api-generator</h3>
+
+            <ul class="wf-list">
+                <li>JPA Entity Generation</li>
+                <li>Repository Generation</li>
+                <li>DTO Generation</li>
+                <li>Validator Creation</li>
+                <li>Mapper Creation</li>
+                <li>Service Layer</li>
+                <li>Controller Layer</li>
+                <li>JUnit Test Suites</li>
+            </ul>
+
+            <div class="wf-context" aria-label="Backend generator context">
+                <span>AGENTS.md</span>
+                <span>API instructions</span>
+                <span>API skills</span>
+                <span>SPEC.md</span>
+            </div>
+
+            <p class="wf-caption">
+                Spring Boot artifact generation
+            </p>
+
+        </div>
+
+        <!-- UI AGENT -->
+
+        <div class="wf-card wf-agent-card wf-track wf-fx" id="wf-frontend">
+
+            <span class="wf-kicker">
+                04B / UI Generation Agent
+            </span>
+
+            <h3>ui-generator</h3>
+
+            <ul class="wf-list">
+                <li>UI Components</li>
+                <li>Library Integration</li>
+                <li>BFF Routes</li>
+                <li>Client Services & Hooks</li>
+                <li>Jest Test Suites</li>
+                <li>Live Preview</li>
+            </ul>
+
+            <div class="wf-context" aria-label="UI generator context">
+                <span>AGENTS.md</span>
+                <span>UI instructions</span>
+                <span>UI design tokens</span>
+                <span>UI skills</span>
+                <span>SPEC.md</span>
+            </div>
+
+            <p class="wf-caption">
+                Next.js + Nx feature generation
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- FINALIZATION (Quality + Traceability + Output) -->
+
+    <div class="wf-stagecol wf-col-output">
+
+        <div class="wf-card wf-finalize-card" id="wf-finalize">
+
+            <span class="wf-kicker">05 / Finalization</span>
+
+            <h3>Validate, Trace &amp; Deliver</h3>
+
+            <div class="wf-finalize-grid">
+
+                <div class="wf-finalize-section">
+                    <span class="wf-sub-kicker">Quality Gates</span>
+                    <div class="wf-artifact">
+                        <b>MAVEN &amp; JUNIT</b>
+                        <span>Backend build &amp; tests</span>
+                    </div>
+                    <div class="wf-artifact">
+                        <b>JEST &amp; NX</b>
+                        <span>Frontend tests &amp; app readiness</span>
+                    </div>
+                </div>
+
+                <div class="wf-finalize-section">
+                    <span class="wf-sub-kicker">Output</span>
+                    <ul class="wf-list">
+                        <li>Spring Boot API</li>
+                        <li>Next.js Feature</li>
+                        <li>BFF Integration</li>
+                        <li>Automated Test Suite</li>
+                        <li>Application Preview</li>
+                    </ul>
+                    <div class="wf-note gate">
+                        Final approval required
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+</div>
+
+<div class="footer">
+Business Requirement -> Specifications -> Agent Orchestrator -> API Generator + UI Generator -> Quality Gates -> Running Software
+</div>
+
+<div class="wf-benefits">
+
+    <div class="wf-benefit-card engineering">
+        <h3>Engineering Benefits</h3>
+        <div class="wf-benefit-chips">
+            <span class="wf-benefit-chip">Shared implementation patterns</span>
+            <span class="wf-benefit-chip">Contract-first development</span>
+            <span class="wf-benefit-chip">Clear code ownership</span>
+            <span class="wf-benefit-chip">Reusable UI and API blocks</span>
+            <span class="wf-benefit-chip">Automated validation coverage</span>
+            <span class="wf-benefit-chip">Traceable artifacts</span>
+        </div>
+    </div>
+
+    <div class="wf-benefit-card business">
+        <h3>Business Benefits</h3>
+        <div class="wf-benefit-chips">
+            <span class="wf-benefit-chip">Single source of truth</span>
+            <span class="wf-benefit-chip">Predictable delivery</span>
+            <span class="wf-benefit-chip">Spec-to-code traceability</span>
+            <span class="wf-benefit-chip">Reduced handoffs</span>
+            <span class="wf-benefit-chip">Better alignment</span>
+            <span class="wf-benefit-chip">Higher confidence</span>
+        </div>
+    </div>
+
+</div>
+
+</div>
+</section>
+
+<script>
+(function(){
+
+const stage=document.getElementById("wf-stage");
+const svg=document.getElementById("wf-lines");
+
+var edges = [
+
+ ['wf-trigger','wf-backend-spec',null,'h'],
+ ['wf-trigger','wf-ui-spec',null,'h'],
+
+ ['wf-backend-spec','wf-decision',null,'h'],
+ ['wf-ui-spec','wf-decision',null,'h'],
+
+ ['wf-decision','wf-backend','yes','h'],
+ ['wf-decision','wf-frontend','no','h'],
+
+ ['wf-backend','wf-finalize',null,'h'],
+ ['wf-frontend','wf-finalize',null,'h']
+
+];
+
+function point(el,side){
+const r=el.getBoundingClientRect();
+const s=stage.getBoundingClientRect();
+
+const cx=r.left-s.left+r.width/2;
+const cy=r.top-s.top+r.height/2;
+
+if(side==="left") return {x:r.left-s.left,y:cy};
+if(side==="right") return {x:r.right-s.left,y:cy};
+if(side==="top") return {x:cx,y:r.top-s.top};
+
+return {x:cx,y:r.bottom-s.top};
+}
+
+function build(){
+
+while(svg.firstChild)
+svg.removeChild(svg.firstChild);
+
+svg.setAttribute("width",stage.clientWidth);
+svg.setAttribute("height",stage.clientHeight);
+
+edges.forEach(edge=>{
+
+const from=document.getElementById(edge[0]);
+const to=document.getElementById(edge[1]);
+
+if(!from || !to) return;
+
+const p1=point(from,"right");
+const p2=point(to,"left");
+
+const mid=(p1.x+p2.x)/2;
+
+const path=document.createElementNS(
+"http://www.w3.org/2000/svg",
+"path"
+);
+
+const d=
+`M ${p1.x} ${p1.y}
+ C ${mid} ${p1.y},
+   ${mid} ${p2.y},
+   ${p2.x} ${p2.y}`;
+
+path.setAttribute("d",d);
+path.setAttribute("fill","none");
+path.setAttribute("stroke","#2fa07c");
+path.setAttribute("stroke-width","2");
+
+svg.appendChild(path);
+
+const dot=document.createElementNS(
+"http://www.w3.org/2000/svg",
+"circle"
+);
+
+dot.setAttribute("r","4");
+dot.setAttribute("fill","#2fa07c");
+
+const motion=document.createElementNS(
+"http://www.w3.org/2000/svg",
+"animateMotion"
+);
+
+motion.setAttribute("dur","3s");
+motion.setAttribute("repeatCount","indefinite");
+motion.setAttribute("path",d);
+
+dot.appendChild(motion);
+svg.appendChild(dot);
+
+});
+
+}
+
+window.addEventListener("load",build);
+window.addEventListener("resize",build);
+
+})();
+</script>
+
+</body>
+</html>

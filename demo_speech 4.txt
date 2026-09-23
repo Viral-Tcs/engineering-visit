@@ -1,0 +1,58 @@
+Hi Good morning everyone. My name is Devanshi 
+
+Today, we are going to demonstrate Specification Driven Development 
+
+Before we begin, let’s understand the challenges
+
+In a traditional development process, business requirements are interpreted by different teams. Backend, frontend, and QA teams often create their own understanding of the requirement, leading to multiple discussions, rework, inconsistencies, and longer delivery timelines. 
+
+Also we are using Prompt-Driven Development, developers directly ask an AI model to generate code from a prompt. While this approach is fast, the outcome depends on how the prompt is written. Different prompts can lead to different implementations, making consistency, governance, and traceability difficult across teams.
+
+Specification-Driven Development takes a different approach. Instead of generating code directly from prompts, 
+we first create a structured specification by keeping business requirements, acceptance criteria in context
+So lets say we have one user story which is divided to different tasks and for each task we are either creating new spec files or modifying existing spec files. 
+
+> Show the SPEC Files and explain what it contains
+
+So as here you can see we have one of the spec file for workflow listing functionality in the UI specification we are having Business Scope, Technical Scope, API contracts, validation rules, data models, and tests basically how the functionality should behave. This specification becomes the single source of truth.
+
+We have constantly improved our way of writing specs to get more and more accurate results from ai. As the Spec is our single source of truth we have written as it is easily understandable so it can be reviewed OR SHARED across the team. Also these spec files can be adopted by any ai tool and technology.
+
+After the approval, Our orchestrator will look at the changes and decide the change is of frontend, backend or full stack. After that orchestrator will call AI agents generate code using given instructions, skills and spec files. 
+
+The UI Generator creates components, routes, client services, integrations, live preview, and frontend test suites.
+
+Aneri:
+The API Generator creates entities, repositories, services, controllers, validators, mappers, and automated test suites.
+
+Finally, quality gates validate the generated code before delivery.
+
+Now let’s move to the demo 
+
+[DEMO]
+Generally we call the agents from our IDEs but we created stimulation for the demo purpose.
+
+While generating new features it almost take 30 - 45mins. If the feature is already available then only the changes will be performed by the agents.
+
+The output is a ready-to-run application consisting of Spring Boot APIs, Next.js features, BFF integrations, automated tests, and an application preview.
+
+[Brands hub workflow demo]
+Brands Hub is a centralized platform designed to enhance collaboration between M&S and third-party brands. It enables to easily raise queries and tickets between Brands to M&S and M&S to Brands , M&S to M&S, which are automatically routed to the appropriate teams for resolution with timely follow ups. It acts as a single platforms for brand-related data, commercial agreements and documents such as invoices, weekly sales/ stock download's up to date accurate details.
+
+BrandsHub supports various business processes such as Brand Onboarding, Logistics Queries, and other cross-functional activities involving multiple internal M&S teams and brand partners. These processes consist of several tasks that may need to be completed in a specific sequence, while others can run in parallel.
+
+Currently, these processes are managed manually, requiring significant coordination and follow-ups between teams.
+
+Workflow Management enables BrandsHub to orchestrate these tasks within a structured workflow by defining task ownership, execution order, and dependencies. For example, during Brand Onboarding, a vendor must be created in SAP before the contract creation process can begin. Workflow Management ensures such dependencies are enforced automatically.
+
+Here this workflow listing have the data of all the workflows, we can search and filter the workflows also here we are showing the tasks with timeline. Also we can see if the workflow status as not started, on track, delayed or completed 
+ 
+As demonstrated, a single approved specification drives the entire development lifecycle, significantly reducing manual effort for development while shifting the focus on writing the specs ensuring consistency between business requirements and implementation.
+
+This process ensures alignment across teams, improves quality and provides a more predictable and scalable development process for enterprise applications.
+
+Spec driven development is like a powerful assistant that handles the repetitive
+groundwork - so our people spend their time on judgement, quality and
+security.
+
+Thank you.
