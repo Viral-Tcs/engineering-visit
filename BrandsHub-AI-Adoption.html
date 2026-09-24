@@ -742,6 +742,16 @@ body{
     background:var(--acc);
     flex:0 0 auto;
 }
+.tl-agents span[data-target]{ cursor:pointer; transition:background .2s ease,border-color .2s ease,transform .2s ease; }
+.tl-agents span[data-target]:hover{ background:rgba(255,255,255,.12); border-color:var(--acc); transform:translateY(-1px); }
+
+.wf-card.flash{ animation:cardFlash 1.6s ease; }
+@keyframes cardFlash{
+    0%{ box-shadow:0 12px 28px rgba(0,0,0,.2); transform:translateY(0); }
+    12%{ box-shadow:0 0 0 4px var(--brand-tint),0 18px 40px rgba(0,0,0,.5); transform:translateY(-6px); }
+    45%{ box-shadow:0 0 0 4px var(--brand-tint),0 18px 40px rgba(0,0,0,.5); transform:translateY(-6px); }
+    100%{ box-shadow:0 12px 28px rgba(0,0,0,.2); transform:translateY(0); }
+}
 
 .tl-list{ margin:7px 0 0; padding-left:15px; font-size:10.5px; }
 .tl-list li{ margin-bottom:3px; color:#c6d3d9; line-height:1.25; }
@@ -867,6 +877,93 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
     <div class="wf-metric"><b>0</b><span>Extra Points for Tests</span></div>
 </div>
 
+<!-- ===================== SDLC TIMELINE (v2 - linear connected flow) ===================== -->
+<div class="wf-section-title">AI Assisted SDLC</div>
+<p class="wf-section-sub">The same lifecycle as a linear, connected pipeline &mdash; each stage summarised at a glance</p>
+
+<div class="tl" id="tlStage">
+    <div class="tl-track">
+        <svg class="tl-lines" id="tlLines"></svg>
+
+        <div class="tl-step up s-green">
+            <div class="tl-card">
+                <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-clipboard"/></svg></span><h3>Planning &amp; Design</h3></div>
+                <div class="tl-agents"><span>Rovo Agent</span></div>
+                <ul class="tl-list">
+                    <li><strong>Rovo</strong> drafts &amp; grooms Jira stories</li>
+                    <li>Confluence docs auto-created &amp; synced</li>
+                    <li>Clear acceptance criteria on every story</li>
+                </ul>
+                <div class="tl-kpis"><span>Faster grooming</span><span>Sprint-ready stories</span></div>
+                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Product Owner reviews stories &amp; docs</div>
+            </div>
+            <div class="tl-node"><svg class="ic"><use href="#ic-clipboard"/></svg><span class="tl-num">01</span><span class="tl-title">Plan &amp; Design</span></div>
+        </div>
+
+        <div class="tl-step down s-orange">
+            <div class="tl-card">
+                <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-code"/></svg></span><h3>Development &amp; Unit Testing</h3></div>
+                <div class="tl-agents"><span data-target="agent-api-generator">API Generator Agent</span><span>GitHub Copilot</span><span data-target="agent-jest">Jest Agent</span></div>
+                <ul class="tl-list">
+                    <li><strong>API Generator</strong> builds full features</li>
+                    <li>Spec-driven dev from <strong>SPEC.md</strong></li>
+                    <li>Custom GHCP instructions enforce standards</li>
+                    <li><strong>Jest</strong> &amp; JUnit unit tests generated</li>
+                </ul>
+                <div class="tl-kpis"><span>Faster development</span><span>Tests auto-generated</span><span>Standards-aligned</span></div>
+                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Developers &amp; engineers review the code &amp; logic</div>
+            </div>
+            <div class="tl-node"><svg class="ic"><use href="#ic-code"/></svg><span class="tl-num">02</span><span class="tl-title">Development</span></div>
+        </div>
+
+        <div class="tl-step up s-error">
+            <div class="tl-card">
+                <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-shield"/></svg></span><h3>Security &amp; Compliance</h3></div>
+                <div class="tl-agents"><span data-target="agent-lint">ESLint Fixer Agent</span><span data-target="agent-sonar">Sonar Fixer Agent</span></div>
+                <ul class="tl-list">
+                    <li><strong>ESLint</strong> auto-fixes on changed files</li>
+                    <li><strong>Sonar</strong> maintainability issues fixed via agent</li>
+                    <li>Insecure patterns caught early</li>
+                </ul>
+                <div class="tl-kpis"><span>Early detection</span><span>Auto-fixed</span><span>Audit-ready</span></div>
+                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Developers &amp; team lead sign off</div>
+            </div>
+            <div class="tl-node"><svg class="ic"><use href="#ic-shield"/></svg><span class="tl-num">03</span><span class="tl-title">Security</span></div>
+        </div>
+
+        <div class="tl-step down s-cyan">
+            <div class="tl-card">
+                <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-message"/></svg></span><h3>Code Review &amp; Refactoring</h3></div>
+                <div class="tl-agents"><span>Pipeline-embedded PR Review</span><span data-target="agent-local-reviewer">Local Reviewer Agent</span></div>
+                <ul class="tl-list">
+                    <li>Built-in <strong>AI PR review</strong> in GitHub</li>
+                    <li><strong>Local Reviewer</strong> agent pre-commit</li>
+                    <li>Guided, standards-safe refactors</li>
+                </ul>
+                <div class="tl-kpis"><span>Multi-pass review</span><span>Consistent standards</span></div>
+                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Team lead reviews after the PR review agent</div>
+            </div>
+            <div class="tl-node"><svg class="ic"><use href="#ic-message"/></svg><span class="tl-num">04</span><span class="tl-title">Code Review</span></div>
+        </div>
+
+        <div class="tl-step up s-purple">
+            <div class="tl-card">
+                <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-flask"/></svg></span><h3>Testing &amp; QA</h3></div>
+                <div class="tl-agents"><span data-target="agent-pt">PT Generator Agent</span></div>
+                <ul class="tl-list">
+                    <li>Scenarios &amp; edge cases from acceptance criteria</li>
+                    <li>AI-assisted regression coverage</li>
+                    <li><strong>PT scripts</strong> validate performance</li>
+                </ul>
+                <div class="tl-kpis"><span>Broader cover</span><span>Fewer escapes</span></div>
+                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> QA runs exploratory testing</div>
+            </div>
+            <div class="tl-node"><svg class="ic"><use href="#ic-flask"/></svg><span class="tl-num">05</span><span class="tl-title">Testing &amp; QA</span></div>
+        </div>
+
+    </div>
+</div>
+
 <!-- ===================== AGENTS ===================== -->
 <div class="wf-section-title">Our AI Agents</div>
 <p class="wf-section-sub">Custom GitHub Copilot modes engineered for the BrandsHub portfolio</p>
@@ -874,7 +971,7 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
 <div class="wf-agents">
 
     <!-- 1. API GENERATOR -->
-    <div class="wf-card t-green">
+    <div class="wf-card t-green" id="agent-api-generator">
         <div class="wf-card-head">
             <div class="wf-icon"><svg class="ic"><use href="#ic-gear"/></svg></div>
             <div>
@@ -902,7 +999,7 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
     </div>
 
     <!-- 2. SONAR FIXER -->
-    <div class="wf-card t-cyan">
+    <div class="wf-card t-cyan" id="agent-sonar">
         <div class="wf-card-head">
             <div class="wf-icon"><svg class="ic"><use href="#ic-tool"/></svg></div>
             <div>
@@ -929,7 +1026,7 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
     </div>
 
     <!-- 3. JEST TESTCASE WRITER -->
-    <div class="wf-card t-orange">
+    <div class="wf-card t-orange" id="agent-jest">
         <div class="wf-card-head">
             <div class="wf-icon"><svg class="ic"><use href="#ic-flask"/></svg></div>
             <div>
@@ -956,7 +1053,7 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
     </div>
 
     <!-- 4. LINT STAGED FILES -->
-    <div class="wf-card t-purple">
+    <div class="wf-card t-purple" id="agent-lint">
         <div class="wf-card-head">
             <div class="wf-icon"><svg class="ic"><use href="#ic-search"/></svg></div>
             <div>
@@ -983,7 +1080,7 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
     </div>
 
     <!-- 5. LOCAL COPILOT REVIEWER -->
-    <div class="wf-card t-green">
+    <div class="wf-card t-green" id="agent-local-reviewer">
         <div class="wf-card-head">
             <div class="wf-icon"><svg class="ic"><use href="#ic-message"/></svg></div>
             <div>
@@ -1010,7 +1107,7 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
     </div>
 
     <!-- 6. PT SCRIPT GENERATOR -->
-    <div class="wf-card t-error">
+    <div class="wf-card t-error" id="agent-pt">
         <div class="wf-card-head">
             <div class="wf-icon"><svg class="ic"><use href="#ic-rocket"/></svg></div>
             <div>
@@ -1223,93 +1320,6 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
             <span class="sdlc-human-label"><svg class="ic"><use href="#ic-user"/></svg> Human in the Loop</span>
             <p id="smHuman"></p>
         </div>
-    </div>
-</div>
-
-<!-- ===================== SDLC TIMELINE (v2 - linear connected flow) ===================== -->
-<div class="wf-section-title">AI Assisted SDLC</div>
-<p class="wf-section-sub">The same lifecycle as a linear, connected pipeline &mdash; each stage summarised at a glance</p>
-
-<div class="tl" id="tlStage">
-    <div class="tl-track">
-        <svg class="tl-lines" id="tlLines"></svg>
-
-        <div class="tl-step up s-green">
-            <div class="tl-card">
-                <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-clipboard"/></svg></span><h3>Planning &amp; Design</h3></div>
-                <div class="tl-agents"><span>Rovo Agent</span></div>
-                <ul class="tl-list">
-                    <li><strong>Rovo</strong> drafts &amp; grooms Jira stories</li>
-                    <li>Confluence docs auto-created &amp; synced</li>
-                    <li>Clear acceptance criteria on every story</li>
-                </ul>
-                <div class="tl-kpis"><span>Faster grooming</span><span>Sprint-ready stories</span></div>
-                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Product Owner reviews stories &amp; docs</div>
-            </div>
-            <div class="tl-node"><svg class="ic"><use href="#ic-clipboard"/></svg><span class="tl-num">01</span><span class="tl-title">Plan &amp; Design</span></div>
-        </div>
-
-        <div class="tl-step down s-orange">
-            <div class="tl-card">
-                <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-code"/></svg></span><h3>Development &amp; Unit Testing</h3></div>
-                <div class="tl-agents"><span>API Generator Agent</span><span>GitHub Copilot</span><span>Jest Agent</span></div>
-                <ul class="tl-list">
-                    <li><strong>API Generator</strong> builds full features</li>
-                    <li>Spec-driven dev from <strong>SPEC.md</strong></li>
-                    <li>Custom GHCP instructions enforce standards</li>
-                    <li><strong>Jest</strong> &amp; JUnit unit tests generated</li>
-                </ul>
-                <div class="tl-kpis"><span>Faster development</span><span>Tests auto-generated</span><span>Standards-aligned</span></div>
-                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Developers &amp; engineers review the code &amp; logic</div>
-            </div>
-            <div class="tl-node"><svg class="ic"><use href="#ic-code"/></svg><span class="tl-num">02</span><span class="tl-title">Development</span></div>
-        </div>
-
-        <div class="tl-step up s-error">
-            <div class="tl-card">
-                <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-shield"/></svg></span><h3>Security &amp; Compliance</h3></div>
-                <div class="tl-agents"><span>ESLint Fixer Agent</span><span>Sonar Fixer Agent</span></div>
-                <ul class="tl-list">
-                    <li><strong>ESLint</strong> auto-fixes on changed files</li>
-                    <li><strong>Sonar</strong> maintainability issues fixed via agent</li>
-                    <li>Insecure patterns caught early</li>
-                </ul>
-                <div class="tl-kpis"><span>Early detection</span><span>Auto-fixed</span><span>Audit-ready</span></div>
-                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Developers &amp; team lead sign off</div>
-            </div>
-            <div class="tl-node"><svg class="ic"><use href="#ic-shield"/></svg><span class="tl-num">03</span><span class="tl-title">Security</span></div>
-        </div>
-
-        <div class="tl-step down s-cyan">
-            <div class="tl-card">
-                <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-message"/></svg></span><h3>Code Review &amp; Refactoring</h3></div>
-                <div class="tl-agents"><span>Pipeline-embedded PR Review</span><span>Local Reviewer Agent</span></div>
-                <ul class="tl-list">
-                    <li>Built-in <strong>AI PR review</strong> in GitHub</li>
-                    <li><strong>Local Reviewer</strong> agent pre-commit</li>
-                    <li>Guided, standards-safe refactors</li>
-                </ul>
-                <div class="tl-kpis"><span>Multi-pass review</span><span>Consistent standards</span></div>
-                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> Team lead reviews after the PR review agent</div>
-            </div>
-            <div class="tl-node"><svg class="ic"><use href="#ic-message"/></svg><span class="tl-num">04</span><span class="tl-title">Code Review</span></div>
-        </div>
-
-        <div class="tl-step up s-purple">
-            <div class="tl-card">
-                <div class="tl-card-head"><span class="tl-ic"><svg class="ic"><use href="#ic-flask"/></svg></span><h3>Testing &amp; QA</h3></div>
-                <div class="tl-agents"><span>PT Generator Agent</span></div>
-                <ul class="tl-list">
-                    <li>Scenarios &amp; edge cases from acceptance criteria</li>
-                    <li>AI-assisted regression coverage</li>
-                    <li><strong>PT scripts</strong> validate performance</li>
-                </ul>
-                <div class="tl-kpis"><span>Broader cover</span><span>Fewer escapes</span></div>
-                <div class="tl-human"><svg class="ic"><use href="#ic-user"/></svg> QA runs exploratory testing</div>
-            </div>
-            <div class="tl-node"><svg class="ic"><use href="#ic-flask"/></svg><span class="tl-num">05</span><span class="tl-title">Testing &amp; QA</span></div>
-        </div>
-
     </div>
 </div>
 
@@ -1623,6 +1633,45 @@ BRANDSHUB &mdash; AI ADOPTION &amp; AGENTS
     window.addEventListener("load", build);
     window.addEventListener("resize", build);
     setTimeout(build, 300);
+})();
+</script>
+
+<script>
+(function(){
+    function easeInOutQuad(t){ return t < .5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2; }
+
+    function smoothScrollToCard(card){
+        const rect = card.getBoundingClientRect();
+        const targetY = window.pageYOffset + rect.top - (window.innerHeight - rect.height) / 2;
+        const startY = window.pageYOffset;
+        const dist = targetY - startY;
+        const duration = 600;
+        let startTime = null;
+
+        function step(ts){
+            if(startTime === null){ startTime = ts; }
+            const t = Math.min((ts - startTime) / duration, 1);
+            window.scrollTo(0, startY + dist * easeInOutQuad(t));
+            if(t < 1){ requestAnimationFrame(step); }
+            else { flash(card); }
+        }
+        requestAnimationFrame(step);
+    }
+
+    function flash(card){
+        card.classList.remove("flash");
+        void card.offsetWidth;
+        card.classList.add("flash");
+        setTimeout(function(){ card.classList.remove("flash"); }, 1600);
+    }
+
+    document.querySelectorAll(".tl-agents span[data-target]").forEach(function(chip){
+        chip.addEventListener("click", function(){
+            const card = document.getElementById(chip.dataset.target);
+            if(!card){ return; }
+            smoothScrollToCard(card);
+        });
+    });
 })();
 </script>
 
